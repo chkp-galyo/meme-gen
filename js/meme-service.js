@@ -1,11 +1,12 @@
 'use strict';
 
-var elCanvas;
-var ctx;
-var gImgId;
+var gElCanvas;
+var gCtx;
 var gColor = 'white';
 
-
+var gCurrImgId;
+var imgNextId;
+var gMeme = {}
 
 
 var gImgs = [{ id: 1, url: 'img/1.jpg', keywords: ['happy', 'movies'] },
@@ -35,43 +36,73 @@ var gImgs = [{ id: 1, url: 'img/1.jpg', keywords: ['happy', 'movies'] },
 { id: 25, url: 'img/25.jpg', keywords: ['funny', 'movies'] },
 ];
 
-
-var gMeme = {
-    selectedImgId: 5,
-    txts: [
-        {
-            line: 'I never eat Falafel',
-            size: 20,
-            align: 'left',
-            color: 'red'
-        }
-    ]
+function galeryImgsToDispaly() {
+    return gImgs;
 }
-
 
 function imgClicked(imgId, elCanvas) {
-    // elCanvas = document.querySelector('#canvas');
-    elCanvas.width = 500;
-    // elCanvas.width = window.innerWidth / 2;
-    elCanvas.height = 500;
-    elCanvas.fillstyle = gColor;
-    // elCanvas.height = window.innerHeight / 2;
-    ctx = elCanvas.getContext('2d');
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-   
-    drawImage(imgId)
+
+    gElCanvas = elCanvas;
+    gCurrImgId = imgId;
+
+    createMeme();
+    drawCanvas();
+    drawImage();
+}
+
+function createMeme() {
+
+    gMeme.selectedImgId = gCurrImgId;
+    gMeme.txts = [
+        {
+            firstLine: '',
+            size: 20,
+            align: 'left',
+            color: 'black',
+        }
+    ];
+}
+
+function drawCanvas() {
+    // gElCanvas = document.querySelector('#canvas')
+    gCtx = gElCanvas.getContext('2d');
 }
 
 
-function drawImage(imgId) {
-    var img = new Image()
-    
-    img.src = gImgs[imgId-1].url;
+function drawImage() {
+    var img = new Image();
+
+    img.src = gImgs[gCurrImgId - 1].url;
     img.onload = function () {
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+        canvas.width = img.width;
+        canvas.height = img.height;
+        gCtx.drawImage(img, 0, 0);
     }
 }
 
-function returnGImgs(){
-    return gImgs;
+function memeToDispaly() {
+
+    gCtx.fillStyle = gMeme.txts.color;
+    // gCtx.font = '50px arial'
+    gCtx.font = gMeme.txts[0].size + 'px arial';
+    gCtx.textAlign = gMeme.txts[0].align;
+    gCtx.fillText(gMeme.txts[0].firstLine, 50, 50)
+    gCtx.fillStyle = gColor;
+    gCtx.strokeText(gMeme.txts[0].firstLine, 50, 50)
+
+}
+
+function drawText() {
+    var elTxt = document.querySelector('.firstLine')
+    gMeme.txts[0].firstLine = elTxt.value;
+
+    drawImage();
+    setTimeout(memeToDispaly, 1);
+}
+
+function enlargeFontSize() {
+    gMeme.txts[0].size++;
+
+    drawImage();
+    setTimeout(memeToDispaly, 1);
 }
