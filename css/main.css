@@ -1,3 +1,90 @@
+* {
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: euro;
+    src: url('../fonts/eurofurence_regular/eurofurence_regular.ttf');
+}
+
+body {
+    margin: 0;
+}
+
+/* a {
+    text-decoration: none;
+    
+}
+
+h1 {
+    margin: 0;
+} */
+
+img {
+    width: 100%;
+    height: auto;
+}
+
+/* Helpers */
+.container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 0 20px;
+    /* border: solid 1px #e1e0e0; */
+}
+
+/* lists */
+.clean-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+/* hide/show */
+.hidden {
+    display: none;
+}
+
+/* flex */
+.flex {
+    display: flex;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.space-around {
+    justify-content: space-around;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+.column {
+    flex-direction: column;
+}
+.row {
+    flex-direction: row;
+}
+/* *************************************************************** */
+
+/* HEADER */
+
+
+
+/* ********************************************************************* */
+/* MAIN */
+
+/* galery */
+
+
+/* canvas */
 #cnavas {
     border: 1px solid black;
 }
+
