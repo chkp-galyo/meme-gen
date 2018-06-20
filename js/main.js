@@ -23,3 +23,11 @@ function onImgClick(imgId) {
     elCanvas.classList.remove("hidden");
     imgClicked(imgId, elCanvas);
 }
+
+function backToGallery(){
+    var elGalery = document.querySelector(".galery");
+    elGalery.classList.remove("hidden");
+
+    var elCanvas = document.querySelector("#canvas");
+    elCanvas.classList.add("hidden");
+}
