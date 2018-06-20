@@ -8,17 +8,19 @@
     <title>MEMEGEN</title>
     <link rel="stylesheet" href="css/main.css">
 </head>
-<body onload="init()">
-   
-<main>
-    <div class="container galery"></div>
-</main>
-    
-    <canvas id="canvas" class="canvas hidden"></canvas>
 
+<body onload="init()">
+
+    <main>
+        <div class="container galery"></div>
+        
+        <canvas id="canvas" class="canvas hidden"></canvas>
+        <input class="firstLine" type="text" oninput="drawText()">
+        <button class="btn btn_font_enlarge" onclick="enlargeFontSize()">🞢</button>
+        
+    </main>
     <script src="js/meme-service.js"></script>
     <script src="js/main.js"></script>
 </body>
+
 </html>
-
-

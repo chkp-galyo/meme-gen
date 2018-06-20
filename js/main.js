@@ -5,7 +5,7 @@ function init(){
 }
 
 function renderImgs(){
-    var allImgs = returnGImgs();
+    var allImgs = galeryImgsToDispaly();
     var strHtml = '<ul class="container galery-imgs-container flex row flex-wrap clean-list">';
     for (var i = 0; i < allImgs.length; i++){
         var currImg = allImgs[i]
