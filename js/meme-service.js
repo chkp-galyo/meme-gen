@@ -3,7 +3,7 @@
 var elCanvas;
 var ctx;
 var gImgId;
-var gColor = 'blue';
+var gColor = 'white';
 
 
 
@@ -49,22 +49,24 @@ var gMeme = {
 }
 
 
-function init() {
-    elCanvas = document.querySelector('#canvas');
+function imgClicked(imgId, elCanvas) {
+    // elCanvas = document.querySelector('#canvas');
     elCanvas.width = 500;
     // elCanvas.width = window.innerWidth / 2;
     elCanvas.height = 500;
-    // elCanvas.fillstyle = gColor;
+    elCanvas.fillstyle = gColor;
     // elCanvas.height = window.innerHeight / 2;
     ctx = elCanvas.getContext('2d');
-    ctx.fillStyle = gColor;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    // drawImage()
+   
+    drawImage(imgId)
 }
 
-function drawImage() {
+
+function drawImage(imgId) {
     var img = new Image()
-    img.src = gImgs.url;
+    
+    img.src = gImgs[imgId-1].url;
     img.onload = function () {
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
     }
