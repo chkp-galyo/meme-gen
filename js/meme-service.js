@@ -1,23 +1,68 @@
 'use strict';
 
+var elCanvas;
+var ctx;
+var gColor = 'blue';
 
-var gImgs = [];
 
-var img = {
-    id: 1111,
-    url: eiuqwyeiuqwyeiuqw,
-    keywords: [],
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function init() {
+    elCanvas = document.querySelector('#canvas');
+    elCanvas.width = 500;
+    // elCanvas.width = window.innerWidth / 2;
+    elCanvas.height = 500;
+    // elCanvas.fillstyle = gColor;
+    // elCanvas.height = window.innerHeight / 2;
+    ctx = elCanvas.getContext('2d');
+    ctx.fillStyle = gColor;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // drawImage()
 }
 
-var gImgs = [{ id: 1, url: 'img/img6.jpg', keywords: ['happy'] }];
-var gMeme = {
-    selectedImgId: 5,
-    txts: [
-        {
-            line: 'I never eat Falafel',
-            size: 20,
-            align: 'left',
-            color: 'red'
-        }
-    ]
+function drawImage() {
+    var img = new Image()
+    img.src = gImgs.url;
+    img.onload = function () {
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+    }
 }
