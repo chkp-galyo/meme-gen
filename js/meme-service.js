@@ -5,7 +5,6 @@ var ctx;
 var gColor = 'blue';
 
 
-<<<<<<< HEAD
 
 
 var gImgs = [{ id: 1, url: 'img/1.jpg', keywords: ['happy', 'movies'] },
@@ -47,46 +46,6 @@ var gMeme = {
         }
     ]
 }
-=======
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function init() {
@@ -109,4 +68,3 @@ function drawImage() {
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
     }
 }
->>>>>>> 7fb37bd9da4448876e3b964043bd5515b3d11628
