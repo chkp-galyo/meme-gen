@@ -2,6 +2,7 @@
 
 var elCanvas;
 var ctx;
+var gImgId;
 var gColor = 'blue';
 
 
@@ -67,4 +68,8 @@ function drawImage() {
     img.onload = function () {
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
     }
+}
+
+function returnGImgs(){
+    return gImgs;
 }
