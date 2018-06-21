@@ -26,7 +26,11 @@ a {
     font-family: lato-regular;
     text-decoration: none;
     color: #fff;    
-    height: 100%;
+    /* height: 100%; */
+}
+
+a .active {
+    color: #2eb398; 
 }
 
 h2 {
@@ -114,12 +118,12 @@ nav {
 }
 
 .menu-item {
-    margin: 20px;
+    margin: auto 20px;
 }
 
-li a.active {
+/* li a.active {
     color: #2eb398; 
-}
+} */
 
 .nav-arrow {
     font-size: 50px;
@@ -210,6 +214,9 @@ main {
     width: 30%;
 }
 
+.font-bold {
+    font-weight: 700;
+}
 
 
 /* galery */

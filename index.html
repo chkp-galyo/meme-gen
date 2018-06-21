@@ -31,10 +31,23 @@
         </nav>
     </header>
     <main class="flex column">
-            <canvas id="canvas" class="canvas hidden"></canvas>
-            <input class="firstLine" type="text" oninput="drawText()">
-            <button class="btn btn_font_enlarge" onclick="enlargeFontSize()">🞢</button>
-            <button class="btn-back" onclick="backToGallery()">back to gallery</button>
+            <canvas id="canvas" class="canvas hidden" on-drag="handleClick(event)"></canvas>
+            <div class="btns" style="display: block">
+
+                <input class="firstLine" type="text" oninput="drawText()">
+                <button class="btn btn_font_enlarge" onclick="enlargeFontSize()">🞢</button>
+                <button class="btn btn_font_enlarge" onclick="decreaseFontSize()">-</button>
+                <button class="btn btn_font_enlarge" onclick="changeTextColor('blue')">blue</button>
+                <button class="btn btn_font_enlarge" onclick="changeTextColor('green')">green</button>            
+                <button class="btn btn_font_enlarge" onclick="changeTextColor('red')">red</button>            
+                <button class="btn btn_font_enlarge" onclick="alignText('left')">tfel</button>
+                <button class="btn btn_font_enlarge" onclick="alignText('center')">center</button>            
+                <button class="btn btn_font_enlarge" onclick="alignText('right')">thgir</button>
+                <button class="btn btn_font_enlarge" onclick="alignTextY('top')">top</button>
+                <button class="btn btn_font_enlarge" onclick="alignTextY('center-y')">center-y</button>
+                <button class="btn btn_font_enlarge" onclick="alignTextY('bottom')">bottom</button>                
+                <button class="btn-back" onclick="backToGallery()">back to gallery</button>
+            </div>
     
         <div class="container galery"></div>
 
@@ -69,7 +82,7 @@
                 </div>
                 <div class="text-contact">
                     <p>
-                        <span>Quisque Hendrerit:</span> purus dapibus, ornare nibh vitae, viverra nibh. Fusce vitae aliquam tellus.
+                        <span class="font-bold">Quisque Hendrerit:</span> purus dapibus, ornare nibh vitae, viverra nibh. Fusce vitae aliquam tellus.
                         Proin sit amet volutpat libero. Nulla sed nunc et tortor luctus faucibus morbi vitae. </p>
                     </div>
                 </div>
