@@ -3,6 +3,27 @@
 function init() {
     renderImgs(false);
     renderSearchBox()
+    createMapSearchKeys();
+    rendersearchRibon();
+}
+
+function rendersearchRibon() {
+    gMapKeysSearchd = searchCountMap();
+    var strHTML = `<ul class="memeMapSearch clean-list flex space-around flex-wrap">`;
+    // function test()
+
+    for (var key in gMapKeysSearchd) {
+        if (gMapKeysSearchd.hasOwnProperty(key)) {
+            // console.log(key, valueCounts[key]);
+            strHTML += `<li style="margin: 10px"><a href="#" class="key key-${key}" style="font-size: ${gMapKeysSearchd[key] *2 + 10}px" onclick="keySearchClicked(this)">${key}</a></li>`
+        }
+    }
+
+    strHTML += `</ul>`;
+    // console.log(strHTML);
+
+    document.querySelector('#memeMapSearch').innerHTML = strHTML;
+
 }
 
 function renderImgs(isFilter) {
@@ -26,6 +47,8 @@ function onImgClick(imgId) {
     elGalery.classList.add("hidden");
 
     document.querySelector('.searchBox').classList.add('hidden');
+    var elMapSearchRibon = document.querySelector('#memeMapSearch');
+    elMapSearchRibon.classList.add('hidden');
 
     var elCanvas = document.querySelector("#canvas");
     elCanvas.classList.remove("hidden");
@@ -57,6 +80,9 @@ function backToGallery() {
 
     var elAddLineBtn = document.querySelector('.btn-add-line')
     elAddLineBtn.classList.remove('hidden');
+
+    var elMapSearchRibon = document.querySelector('#memeMapSearch');
+    elMapSearchRibon.classList.remove('hidden');
 
 }
 
