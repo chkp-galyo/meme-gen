@@ -58,4 +58,16 @@ function addLine(elBtn) {
     var elSecondLine = document.querySelector('.meme-editor-line2');
     elSecondLine.classList.add('flex');
     elBtn.classList.add('hidden');
+
+    var secondLine = {
+        memeText: '',
+        size: 40,
+        align: 'left',
+        alignY: 'bottom',
+        color: 'black',
+        upperCase: false
+    };
+
+    gMeme.txts.push(secondLine);
+    // gMeme.txts[1]['alignY'] = 'bottom'
     }

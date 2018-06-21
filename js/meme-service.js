@@ -58,11 +58,12 @@ function createMeme() {
     gMeme.selectedImgId = gCurrImgId;
     gMeme.txts = [
         {
-            firstLine: '',
+            memeText: '',
             size: 40,
             align: 'left',
             alignY: 'top',
-            color: 'red',
+            color: 'black',
+            upperCase: false
         }
     ];
 }
@@ -84,16 +85,18 @@ function drawImage() {
     }
 }
 
-function memeToDispaly() {
+function memeToDispaly() { // for loop for gMeme length
     var left;
     var top;
+    for (var i = 0; i < gMeme.txts.length; i++){
 
-    gCtx.fillStyle = gMeme.txts[0].color;
-    gCtx.font = gMeme.txts[0].size + 'px arial';
-    gCtx.textAlign = gMeme.txts[0].align;
-    gCtx.textAlignY = gMeme.txts[0].alignY;
+    
+    gCtx.fillStyle = gMeme.txts[i].color;
+    gCtx.font = gMeme.txts[i].size + 'px arial';
+    gCtx.textAlign = gMeme.txts[i].align;
+    gCtx.textAlignY = gMeme.txts[i].alignY;
 
-    switch (gMeme.txts[0].align) {
+    switch (gMeme.txts[i].align) {
         case 'left':
             left = getCanvasLeft();
             top = top;
@@ -108,7 +111,7 @@ function memeToDispaly() {
             break;
     }
 
-    switch (gMeme.txts[0].alignY) {
+    switch (gMeme.txts[i].alignY) {
         case 'top':
             left = left;
             top = getCanvasTop();
@@ -127,45 +130,55 @@ function memeToDispaly() {
     // drawOnCanvas(left, top) 
 
     // gCtx.fillStyle = gColor;
-    gCtx.fillText(gMeme.txts[0].firstLine, left, top + gMeme.txts[0].size)
-    // gCtx.strokeText(gMeme.txts[0].firstLine, 50, 50)
-
+    if (gMeme.txts[i].upperCase) {
+        var upperCaseText = gMeme.txts[i].memeText.toUpperCase();
+        gMeme.txts[i].memeText = upperCaseText;
+    }
+    gCtx.fillText(gMeme.txts[i].memeText, left, top + gMeme.txts[i].size)
+    // gCtx.strokeText(gMeme.txts[i].memeText, 50, 50)
+    }
 }
 
 
-function drawText() {
-    var elTxt = document.querySelector('.first-line')
-    gMeme.txts[0].firstLine = elTxt.value;
-    redrawImg()
+// for all those functions send an i from btn clicked on HTML
+
+function drawText(ev, line) {
+    console.log(line)
+    console.log(ev.target.value)
+    // var elTxt = document.querySelector('.first-line')
+    var elTxt = ev.target.value;
+    gMeme.txts[line].memeText = elTxt;
+    redrawCanvas(line)
 }
 
-function enlargeFontSize() {
-    gMeme.txts[0].size += 5;
-    redrawImg()
+function increaseFontSize(line) {
+    gMeme.txts[line].size += 5;
+    redrawCanvas(line)
 }
 
-function decreaseFontSize() {
-    gMeme.txts[0].size -= 5;
-    redrawImg()
+function decreaseFontSize(line) {
+    gMeme.txts[line].size -= 5;
+    redrawCanvas(line)
 }
 
-function changeTextColor(color) {
-    gMeme.txts[0].color = color;
+function changeTextColor(ev, line) {
+    var color = ev.target.value;
+    gMeme.txts[line].color = color;
     gColor = color;
-    redrawImg()
+    redrawCanvas(line)
 }
 
-function alignText(textAlign) {
-    gMeme.txts[0].align = textAlign;
-    redrawImg()
+function alignText(textAlign, line) {
+    gMeme.txts[line].align = textAlign;
+    redrawCanvas(line)
 }
 
-function alignTextY(textAlignY) {
-    gMeme.txts[0].alignY = textAlignY;
-    redrawImg()
+function alignTextY(textAlignY, line) {
+    gMeme.txts[line].alignY = textAlignY;
+    redrawCanvas(line)
 }
 
-function redrawImg() {
+function redrawCanvas() {
     drawImage();
     setTimeout(memeToDispaly, 0);
 }
@@ -194,8 +207,25 @@ function getCanvasBottom() {
     return gElCanvas.height - 100;
 }
 
+function upperCaseFont(line) {
+    // var upperCaseText = gMeme.txts[line].memeText.toUpperCase();
+    // gMeme.txts[line].memeText = upperCaseText;
+    gMeme.txts[line].upperCase = true;
+    redrawCanvas(line);
+}
 
+function lowerCaseFont(line) {
+    var lowerCaseText = gMeme.txts[line].memeText.toLowerCase();
+    gMeme.txts[line].memeText = lowerCaseText;
+    gMeme.txts[line].upperCase = false;
+    redrawCanvas(line);
+}
 
+function clearLine(input, line) {
+    gMeme.txts[line].memeText = '';
+    document.querySelector(input).value = '';
+    redrawCanvas(line);
+}
 
 
 
