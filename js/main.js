@@ -22,6 +22,7 @@ function onImgClick(imgId) {
     var elCanvas = document.querySelector("#canvas");
     elCanvas.classList.remove("hidden");
     imgClicked(imgId, elCanvas);
+    showEditor();
 }
 
 function backToGallery(){
@@ -30,4 +31,31 @@ function backToGallery(){
 
     var elCanvas = document.querySelector("#canvas");
     elCanvas.classList.add("hidden");
+
+    var elEditor = document.querySelector('.meme-editor-container');
+    elEditor.classList.remove('flex');
+
+    var elBtnBack = document.querySelector('.btn-back');
+    elBtnBack.classList.add('hidden');
+
+    var elSecondLine = document.querySelector('.meme-editor-line2');
+    elSecondLine.classList.remove('flex');
+
+    var elAddLineBtn = document.querySelector('.btn-add-line')
+    elAddLineBtn.classList.remove('hidden');
+
 }
+
+function showEditor() {
+    var elEditor = document.querySelector('.meme-editor-container');
+    elEditor.classList.add('flex');
+
+    var elBtnBack = document.querySelector('.btn-back');
+    elBtnBack.classList.remove('hidden');
+}
+
+function addLine(elBtn) {
+    var elSecondLine = document.querySelector('.meme-editor-line2');
+    elSecondLine.classList.add('flex');
+    elBtn.classList.add('hidden');
+    }
