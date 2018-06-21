@@ -48,6 +48,7 @@ function imgClicked(imgId, elCanvas) {
     createMeme();
     drawCanvas();
     drawImage();
+    
 }
 
 function createMeme() {
@@ -74,8 +75,8 @@ function drawImage() {
 
     img.src = gImgs[gCurrImgId - 1].url;
     img.onload = function () {
-        canvas.width = img.width;
-        canvas.height = img.height;
+        canvas.width = 500;
+        canvas.height = canvas.width / (img.width/img.height);
         gCtx.drawImage(img, 0, 0);
     }
 }
@@ -93,7 +94,7 @@ function memeToDispaly() {
 }
 
 function drawText() {
-    var elTxt = document.querySelector('.firstLine')
+    var elTxt = document.querySelector('.first-line')
     gMeme.txts[0].firstLine = elTxt.value;
 
     drawImage();

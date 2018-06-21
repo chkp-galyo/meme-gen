@@ -19,7 +19,6 @@
 
 body {
     margin: 0;
-
 }
 
 a {
@@ -43,6 +42,10 @@ img {
     height: auto;
 }
 
+button {
+    cursor: pointer;
+}
+
 /* Helpers */
 .container {
     /* max-width: 700px; */
@@ -61,6 +64,7 @@ img {
 /* hide/show */
 .hidden {
     display: none;
+    /* visibility: hidden; */
 }
 
 /* flex */
@@ -90,9 +94,13 @@ img {
 .row {
     flex-direction: row;
 }
+
+.btn-width {
+    width: 100%;
+}
 /* *************************************************************** */
 
-/* HEADER */
+/* HEADER helpers */
 
 header {
     height: 60px;
@@ -126,11 +134,27 @@ li a.active {
     z-index: 1;
 }
 
+.btn-group .btn {
+    float: left;
+    border: 1px solid black;
+}
+
+.btn-group .btn:not(:last-child) {
+    border-right: none; /* Prevent double borders */
+}
+
+
+
 /* ********************************************************************* */
 /* MAIN */
 
 main {
     align-items: center;
+}
+
+main div button.btn-back, main ul li>button {
+    background-color: #2eb398;
+    color: #d7fcf5;
 }
 
 
@@ -203,7 +227,7 @@ main {
     background-color: #2eb398;
     color: #d7fcf5;
     border: none;
-    cursor: pointer;
+    
 }
 
 .text-contact {
@@ -229,6 +253,34 @@ main {
     border: 1px solid black;
 }
 
+.canvas-container {
+    width: 50%;
+}
+
+/* editor */
+.meme-editor-container li{
+    margin-bottom: 10px;   
+    background-color: #323232; 
+}
+.first-line, .second-line{
+    width: 270px;
+    background-color: #454545;
+    color: #e0e0e0;
+    border: none;
+}
+
+.text-editors {
+    width: 300px;
+    /* max-height: 100px; */
+}
+
+
+.meme-editor-line1, .meme-editor-line2 {
+    width: 350px;
+    height: 70px;  
+    border: 1px solid black;
+    padding: 10px;
+}
 
 /* footer */
 
