@@ -1,13 +1,13 @@
 'use strict';
 
-function init(){
+function init() {
     renderImgs();
 }
 
-function renderImgs(){
+function renderImgs() {
     var allImgs = galeryImgsToDispaly();
     var strHtml = '<ul class="container galery-imgs-container flex row flex-wrap clean-list">';
-    for (var i = 0; i < allImgs.length; i++){
+    for (var i = 0; i < allImgs.length; i++) {
         var currImg = allImgs[i]
         strHtml += `<li class="galery-img"><div style="background-image: url('${currImg.url}')" id="${currImg.id}" class="img img-${currImg.id}" onclick="onImgClick(${currImg.id})"></div></li>`
     }
@@ -23,9 +23,10 @@ function onImgClick(imgId) {
     elCanvas.classList.remove("hidden");
     imgClicked(imgId, elCanvas);
     showEditor();
+    window.scrollTo(0, 0);
 }
 
-function backToGallery(){
+function backToGallery() {
     var elGalery = document.querySelector(".galery");
     elGalery.classList.remove("hidden");
 
@@ -58,4 +59,18 @@ function addLine(elBtn) {
     var elSecondLine = document.querySelector('.meme-editor-line2');
     elSecondLine.classList.add('flex');
     elBtn.classList.add('hidden');
-    }
+}
+
+function onFontChange(value) {
+var elFontFamily = document.querySelector('.font-family');
+console.log(elFontFamily.value);
+
+
+changeFont(elFontFamily.value);
+}
+
+function downloadCanvas(elLink) {
+    console.log(gElCanvas.toDataURL())
+    elLink.href = gElCanvas.toDataURL()
+    elLink.download = 'my-meme.jpg'
+}

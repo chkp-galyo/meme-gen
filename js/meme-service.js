@@ -8,6 +8,8 @@ var gCurrImgId;
 var imgNextId;
 var gMeme = {}
 
+var gSelectedFont = 'impact-regular';
+
 
 var gImgs = [{ id: 1, url: 'img/1.jpg', keywords: ['happy', 'movies'] },
 { id: 2, url: 'img/2.jpg', keywords: ['happy', 'dance', 'movies'] },
@@ -80,7 +82,7 @@ function drawImage() {
     img.onload = function () {
         canvas.width = 500;
         canvas.height = canvas.width / (img.width/img.height);
-        gCtx.drawImage(img, 0, 0);
+        gCtx.drawImage(img, 0, 0, canvas.width, canvas.height);
     }
 }
 
@@ -89,7 +91,10 @@ function memeToDispaly() {
     var top;
 
     gCtx.fillStyle = gMeme.txts[0].color;
-    gCtx.font = gMeme.txts[0].size + 'px arial';
+    gCtx.font = gMeme.txts[0].size + 'px ' + gSelectedFont;
+    console.log(gCtx.font);
+    
+    // gCtx.font = gMeme.txts[0].size + 'px arial';
     gCtx.textAlign = gMeme.txts[0].align;
     gCtx.textAlignY = gMeme.txts[0].alignY;
 
@@ -163,6 +168,14 @@ function alignText(textAlign) {
 function alignTextY(textAlignY) {
     gMeme.txts[0].alignY = textAlignY;
     redrawImg()
+}
+
+function changeFont(fontFamily) {
+    gSelectedFont = fontFamily;
+    console.log(gSelectedFont);
+    
+redrawImg();
+
 }
 
 function redrawImg() {

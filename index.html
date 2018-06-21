@@ -31,13 +31,13 @@
         </nav>
     </header>
     <!-- <main class="flex column"> -->
-            <!-- <canvas id="canvas" class="canvas hidden" on-drag="handleClick(event)"></canvas> -->
-            <!-- <div class="btns" style="display: block">
+    <!-- <canvas id="canvas" class="canvas hidden" on-drag="handleClick(event)"></canvas> -->
+    <!-- <div class="btns" style="display: block">
 
                 <input class="firstLine" type="text" oninput="drawText()">
-                <button class="btn btn_font_enlarge" onclick="enlargeFontSize()">🞢</button>
-                <button class="btn btn_font_enlarge" onclick="decreaseFontSize()">-</button>
-                <button class="btn btn_font_enlarge" onclick="changeTextColor('blue')">blue</button>
+                <!-- <button class="btn btn_font_enlarge" onclick="enlargeFontSize()">🞢</button> -->
+    <!-- <button class="btn btn_font_enlarge" onclick="decreaseFontSize()">font</button> -->
+    <!-- <button class="btn btn_font_enlarge" onclick="changeTextColor('blue')">blue</button>
                 <button class="btn btn_font_enlarge" onclick="changeTextColor('green')">green</button>            
                 <button class="btn btn_font_enlarge" onclick="changeTextColor('red')">red</button>            
                 <button class="btn btn_font_enlarge" onclick="alignText('left')">tfel</button>
@@ -49,16 +49,16 @@
                 <button class="btn-back" onclick="backToGallery()">back to gallery</button>
             </div>
      -->
-        <!-- <div class="container galery"></div> -->
+    <!-- <div class="container galery"></div> -->
 
     <section class="container galery"></section>
 
     <main class="main_container flex wrap row space-around">
         <div class="canvas-container">
-            <button class="btn-back btn-width hidden" onclick="backToGallery()">back to gallery</button>
+            <button class="btn-back btn-width btn-height hidden" onclick="backToGallery()">back to gallery</button>
             <canvas id="canvas" class="canvas hidden"></canvas>
         </div>
- 
+
         <ul class="meme-editor-container clean-list  column space-between hidden">
             <li class="meme-editor-line1 flex column wrap space-between">
                 <div class="flex space-between">
@@ -84,7 +84,7 @@
                 </div>
             </li>
             <li>
-                <button class="btn-width btn-add-line" onclick="addLine(this)">Add text line</button>
+                <button class="btn-width btn-height btn-add-line" onclick="addLine(this)">Add text line</button>
             </li>
             <li class="meme-editor-line2 column wrap space-between hidden">
                 <div class="flex space-between">
@@ -110,10 +110,22 @@
                 </div>
             </li>
             <li>
-                <button class="btn-width">More options</button>
+                <select class="font-family btn-width btn-height" onchange="onFontChange(value)">
+                    <!-- <option value="fantasy">fantasy</option> -->
+                    <option class="selected-font" value="monospace">monospace</option>
+                    <option class="selected-font" value="lato-bold">lato</option>
+                    <option class="selected-font" value="euro">euro</option>
+                    <option class="selected-font" value="maven-regular">maven</option>
+                    <option class="selected-font" value="impact-regular" selected>impact</option>
+                </select>
             </li>
             <li>
-                <button class="btn-width">Save meme</button>
+                <button class="btn-width btn-height">More options</button>
+            </li>
+            <li>
+                <div class="download btn-width btn-height">
+                    <a class="download" onclick="downloadCanvas(this)">SAVE ME(ME)</a>
+                </div>
             </li>
         </ul>
 
