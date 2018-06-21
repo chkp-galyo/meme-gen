@@ -31,11 +31,16 @@ body {
     font-size: 16px;
 }
 
-a {
+header a {
     font-family: lato-regular;
     text-decoration: none;
     color: #fff;    
     /* height: 100%; */
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
     cursor: pointer;
 }
 
@@ -166,6 +171,11 @@ nav {
 
 /* ********************************************************************* */
 /* MAIN */
+
+.memeMapSearch {
+    max-height: 250px;
+    background-color: yellow;
+}
 
 main {
     align-items: center;

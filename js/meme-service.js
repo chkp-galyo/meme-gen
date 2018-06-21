@@ -1,5 +1,8 @@
 'use strict';
 
+var IMGS_KEY = 'galery_imges';
+var MAP_SEARCH_KEY = 'map_search_keys'
+
 var gElCanvas;
 var gCtx;
 var gColor = 'white';
@@ -9,7 +12,9 @@ var imgNextId;
 var gMeme = {}
 
 var gSelectedFont = 'impact-regular';
-
+// var gSearchWords = ['happy', 'movies', 'dance', 'hertzel', 'angry', 'love', 'win', 'baby', 'sleep', 'cat', 'funny', 'dog', 'sport', 'serious', 'putin'];
+var gKeysSearched = ['happy', 'happy', 'happy', 'happy', 'happy', 'movies', 'happy', 'movies', 'hertzel', 'sleep', 'baby', 'dog', 'sleep', 'baby', 'dog', 'love', 'sport', 'happy', 'movies', 'dance', 'angry', 'love', 'win', 'baby', 'sleep', 'cat', 'funny', 'funny', 'funny', 'funny', 'funny', 'dog', 'sport', 'serious', 'putin'];
+var gMapKeysSearchd = {};
 
 var gImgs = [{ id: 1, url: 'img/1.jpg', keywords: ['happy', 'movies'] },
 { id: 2, url: 'img/2.jpg', keywords: ['happy', 'dance', 'movies'] },
@@ -36,10 +41,12 @@ var gImgs = [{ id: 1, url: 'img/1.jpg', keywords: ['happy', 'movies'] },
 { id: 23, url: 'img/23.jpg', keywords: ['funny', 'movies'] },
 { id: 24, url: 'img/24.jpg', keywords: ['putin', 'funny'] },
 { id: 25, url: 'img/25.jpg', keywords: ['funny', 'movies'] },
+{ id: 26, url: 'img/26.jpg', keywords: ['funny', 'hertzel'] },
 ];
 
 
 function galeryImgsToDispaly() {
+    createImgs();
     return gImgs;
 }
 
@@ -52,7 +59,7 @@ function imgClicked(imgId, elCanvas) {
     drawCanvas();
     drawImage();
 
-    
+
 }
 
 function createMeme() {
@@ -65,7 +72,8 @@ function createMeme() {
             align: 'left',
             alignY: 'top',
             color: 'black',
-            upperCase: false
+            upperCase: false,
+            stroke: false,
         }
     ];
 }
@@ -82,7 +90,7 @@ function drawImage() {
     img.src = gImgs[gCurrImgId - 1].url;
     img.onload = function () {
         canvas.width = 500;
-        canvas.height = canvas.width / (img.width/img.height);
+        canvas.height = canvas.width / (img.width / img.height);
         gCtx.drawImage(img, 0, 0, canvas.width, canvas.height);
     }
 }
@@ -90,56 +98,59 @@ function drawImage() {
 function memeToDispaly() { // for loop for gMeme length
     var left;
     var top;
-    for (var i = 0; i < gMeme.txts.length; i++){
+    for (var i = 0; i < gMeme.txts.length; i++) {
 
-    
+
         gCtx.fillStyle = gMeme.txts[i].color;
-        
-    gCtx.font = gMeme.txts[i].size + 'px ' + gSelectedFont;
 
-    gCtx.textAlign = gMeme.txts[i].align;
-    gCtx.textAlignY = gMeme.txts[i].alignY;
-    
-    switch (gMeme.txts[i].align) {
-        case 'left':
-            left = getCanvasLeft();
-            top = top;
-            break;
-        case 'center':
-            left = getCanvasCenter();
-            top = top;
-            break;
-        case 'right':
-            left = getCanvasRight();
-            top = top;
-            break;
-    }
+        gCtx.font = gMeme.txts[i].size + 'px ' + gSelectedFont;
 
-    switch (gMeme.txts[i].alignY) {
-        case 'top':
-            left = left;
-            top = getCanvasTop();
-            break;
-        case 'center-y':
-            left = left;
-            top = getCanvasCenterY();
-            break;
-        case 'bottom':
-            left = left;
-            top = getCanvasBottom();
-    }
+        gCtx.textAlign = gMeme.txts[i].align;
+        gCtx.textAlignY = gMeme.txts[i].alignY;
 
-    console.log(left, top)
+        switch (gMeme.txts[i].align) {
+            case 'left':
+                left = getCanvasLeft();
+                top = top;
+                break;
+            case 'center':
+                left = getCanvasCenter();
+                top = top;
+                break;
+            case 'right':
+                left = getCanvasRight();
+                top = top;
+                break;
+        }
 
-    // drawOnCanvas(left, top) 
+        switch (gMeme.txts[i].alignY) {
+            case 'top':
+                left = left;
+                top = getCanvasTop();
+                break;
+            case 'center-y':
+                left = left;
+                top = getCanvasCenterY();
+                break;
+            case 'bottom':
+                left = left;
+                top = getCanvasBottom();
+        }
 
-    // gCtx.fillStyle = gColor;
-    if (gMeme.txts[i].upperCase) {
-        var upperCaseText = gMeme.txts[i].memeText.toUpperCase();
-        gMeme.txts[i].memeText = upperCaseText;
-    }
-    gCtx.fillText(gMeme.txts[i].memeText, left, top + gMeme.txts[i].size)
-    // gCtx.strokeText(gMeme.txts[i].memeText, 50, 50)
+        console.log(left, top)
+
+        // drawOnCanvas(left, top) 
+
+        // gCtx.fillStyle = gColor;
+        if (gMeme.txts[i].upperCase) {
+            var upperCaseText = gMeme.txts[i].memeText.toUpperCase();
+            gMeme.txts[i].memeText = upperCaseText;
+        }
+        gCtx.fillText(gMeme.txts[i].memeText, left, top + gMeme.txts[i].size)
+
+        if (gMeme.txts[i].stroke) {
+            gCtx.strokeText(gMeme.txts[i].memeText, left, top + gMeme.txts[i].size);
+        }
     }
 }
 
@@ -170,6 +181,12 @@ function changeTextColor(ev, line) {
     gMeme.txts[line].color = color;
     gColor = color;
     redrawCanvas(line)
+}
+
+function toggleStroke(line) {
+
+    (!gMeme.txts[line].stroke) ? gMeme.txts[line].stroke = true : gMeme.txts[line].stroke = false;
+    redrawCanvas(line);
 }
 
 function alignText(textAlign, line) {
@@ -238,8 +255,61 @@ function clearLine(input, line) {
 }
 
 
+function searchCountMap() {
 
+    var mapVotesCount = {};
 
+    var res = gKeysSearched.reduce(function (acc, item) {
+        acc[item] = (acc[item]) ? acc[item] + 1 : 1;
+        return acc;
+    }, mapVotesCount)
+
+    console.log('Result:', res);
+    return res;
+}
+
+function keySearchClicked(elKey) {
+    // console.log(elKey.innerText);
+
+    gKeysSearched.push(elKey.innerText);
+
+    saveMapKeys();
+    rendersearchRibon();
+}
+
+function createImgs() {
+
+    var imgs = loadFromStorage(IMGS_KEY);
+    if (!imgs || imgs.length === 0) {
+        imgs = gImgs;
+        // books.push(createBook('Run Lola Run', 29.90, `<img src="img/1-dummy_cover.jpg">`));
+        // books.push(createBook('Anna Carenina', 21.90, `<img src="img/2-dummy_cover.jpg">`));
+        // books.push(createBook('Eurovision History', 49.90, `<img src="img/3-dummy_cover.jpg">`));
+        // books.push(createBook('Master CSS', 28.90, `<img src="img/4-dummy_cover.jpg">`));
+        // books.push(createBook('Do It Now', 9.90, `<img src="img/5-dummy_cover.jpg">`));
+    }
+    gImgs = imgs;
+    saveImgs();
+}
+
+function createMapSearchKeys() {
+
+    var mapKeys = loadFromStorage(MAP_SEARCH_KEY);
+    if (!mapKeys || mapKeys.length === 0) {
+        mapKeys = gKeysSearched;
+
+    }
+    gKeysSearched = mapKeys;
+    saveMapKeys();
+}
+
+function saveImgs() {
+    saveToStorage(IMGS_KEY, gImgs);
+}
+
+function saveMapKeys() {
+    saveToStorage(MAP_SEARCH_KEY, gKeysSearched);
+}
 
 
 
