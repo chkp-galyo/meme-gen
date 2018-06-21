@@ -1,14 +1,20 @@
 'use strict';
 
 function init() {
-    renderImgs();
+    renderImgs(false);
+    renderSearchBox()
 }
 
-function renderImgs() {
-    var allImgs = galeryImgsToDispaly();
+function renderImgs(isFilter) {
+    var allImgs = galeryImgsToDispaly(isFilter);
     var strHtml = '<ul class="container galery-imgs-container flex row flex-wrap clean-list">';
+    var renderdImgsIds = [];
     for (var i = 0; i < allImgs.length; i++) {
         var currImg = allImgs[i]
+        if (renderdImgsIds.includes(currImg.id)){
+            continue;
+        }
+        renderdImgsIds.push(currImg.id);
         strHtml += `<li class="galery-img"><div style="background-image: url('${currImg.url}')" id="${currImg.id}" class="img img-${currImg.id}" onclick="onImgClick(${currImg.id})"></div></li>`
     }
     strHtml += '</ul>'
@@ -19,6 +25,8 @@ function onImgClick(imgId) {
     var elGalery = document.querySelector(".galery");
     elGalery.classList.add("hidden");
 
+    document.querySelector('.searchBox').classList.add('hidden');
+
     var elCanvas = document.querySelector("#canvas");
     elCanvas.classList.remove("hidden");
     imgClicked(imgId, elCanvas);
@@ -27,6 +35,11 @@ function onImgClick(imgId) {
 }
 
 function backToGallery() {
+    document.querySelector('.first-line').value = '';
+    document.querySelector('.second-line').value = '';
+    
+    document.querySelector('.searchBox').classList.remove('hidden');
+
     var elGalery = document.querySelector(".galery");
     elGalery.classList.remove("hidden");
 
@@ -65,7 +78,7 @@ function addLine(elBtn) {
         size: 40,
         align: 'left',
         alignY: 'bottom',
-        color: 'black',
+        color: 'red',
         upperCase: false
     };
 
@@ -85,4 +98,20 @@ function downloadCanvas(elLink) {
     // console.log(gElCanvas.toDataURL());
     elLink.href = gElCanvas.toDataURL();
     elLink.download = 'my-meme.jpg';
+}
+
+function onSearch(){
+    var keyword = document.querySelector('.searchBox').value;
+    filterByKeyword(keyword);
+}
+
+
+function renderSearchBox(){
+    var strHtml = `<input class="searchBox" list="filter" oninput="onSearch()">
+    <datalist id="filter">`;
+    for (var i = 0; i < gSearchWords.length; i++){
+        strHtml += `<option value="${gSearchWords[i]}">`;
+    }
+    strHtml += `</datalist>`;
+    document.querySelector('.filter').innerHTML = strHtml;
 }

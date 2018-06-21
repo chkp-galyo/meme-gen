@@ -7,9 +7,11 @@ var gColor = 'white';
 var gCurrImgId;
 var imgNextId;
 var gMeme = {}
+var gSearchWords = ['happy', 'movies', 'dance', 'hertzel', 'angry',
+    'love', 'win', 'baby', 'sleep', 'cat', 'funny', 'dog', 'sport', 'serious', 'putin']
 
 var gSelectedFont = 'impact-regular';
-
+var gImgsFiltered = [];
 
 var gImgs = [{ id: 1, url: 'img/1.jpg', keywords: ['happy', 'movies'] },
 { id: 2, url: 'img/2.jpg', keywords: ['happy', 'dance', 'movies'] },
@@ -39,8 +41,9 @@ var gImgs = [{ id: 1, url: 'img/1.jpg', keywords: ['happy', 'movies'] },
 ];
 
 
-function galeryImgsToDispaly() {
-    return gImgs;
+function galeryImgsToDispaly(isFilter) {
+    if (isFilter) return gImgsFiltered;
+    else return gImgs;
 }
 
 function imgClicked(imgId, elCanvas) {
@@ -52,7 +55,7 @@ function imgClicked(imgId, elCanvas) {
     drawCanvas();
     drawImage();
 
-    
+
 }
 
 function createMeme() {
@@ -82,7 +85,7 @@ function drawImage() {
     img.src = gImgs[gCurrImgId - 1].url;
     img.onload = function () {
         canvas.width = 500;
-        canvas.height = canvas.width / (img.width/img.height);
+        canvas.height = canvas.width / (img.width / img.height);
         gCtx.drawImage(img, 0, 0, canvas.width, canvas.height);
     }
 }
@@ -90,58 +93,59 @@ function drawImage() {
 function memeToDispaly() { // for loop for gMeme length
     var left;
     var top;
-    for (var i = 0; i < gMeme.txts.length; i++){
+    for (var i = 0; i < gMeme.txts.length; i++) {
 
-    
+
         gCtx.fillStyle = gMeme.txts[i].color;
-        
-    gCtx.font = gMeme.txts[i].size + 'px ' + gSelectedFont;
 
-    gCtx.textAlign = gMeme.txts[i].align;
-    gCtx.textAlignY = gMeme.txts[i].alignY;
-    
-    switch (gMeme.txts[i].align) {
-        case 'left':
-            left = getCanvasLeft();
-            top = top;
-            break;
-        case 'center':
-            left = getCanvasCenter();
-            top = top;
-            break;
-        case 'right':
-            left = getCanvasRight();
-            top = top;
-            break;
-    }
+        gCtx.font = gMeme.txts[i].size + 'px ' + gSelectedFont;
 
-    switch (gMeme.txts[i].alignY) {
-        case 'top':
-            left = left;
-            top = getCanvasTop();
-            break;
-        case 'center-y':
-            left = left;
-            top = getCanvasCenterY();
-            break;
-        case 'bottom':
-            left = left;
-            top = getCanvasBottom();
-    }
+        gCtx.textAlign = gMeme.txts[i].align;
+        gCtx.textAlignY = gMeme.txts[i].alignY;
 
-    console.log(left, top)
+        switch (gMeme.txts[i].align) {
+            case 'left':
+                left = getCanvasLeft();
+                top = top;
+                break;
+            case 'center':
+                left = getCanvasCenter();
+                top = top;
+                break;
+            case 'right':
+                left = getCanvasRight();
+                top = top;
+                break;
+        }
 
-    // drawOnCanvas(left, top) 
+        switch (gMeme.txts[i].alignY) {
+            case 'top':
+                left = left;
+                top = getCanvasTop();
+                break;
+            case 'center-y':
+                left = left;
+                top = getCanvasCenterY();
+                break;
+            case 'bottom':
+                left = left;
+                top = getCanvasBottom();
+        }
 
-    // gCtx.fillStyle = gColor;
-    if (gMeme.txts[i].upperCase) {
-        var upperCaseText = gMeme.txts[i].memeText.toUpperCase();
-        gMeme.txts[i].memeText = upperCaseText;
-    }
-    gCtx.fillText(gMeme.txts[i].memeText, left, top + gMeme.txts[i].size)
-    // gCtx.strokeText(gMeme.txts[i].memeText, 50, 50)
+        console.log(left, top)
+
+        // drawOnCanvas(left, top) 
+
+        // gCtx.fillStyle = gColor;
+        if (gMeme.txts[i].upperCase) {
+            var upperCaseText = gMeme.txts[i].memeText.toUpperCase();
+            gMeme.txts[i].memeText = upperCaseText;
+        }
+        gCtx.fillText(gMeme.txts[i].memeText, left, top + gMeme.txts[i].size);
+        gCtx.strokeText(gMeme.txts[i].memeText, left, top + gMeme.txts[i].size)
     }
 }
+
 
 
 // for all those functions send an i from btn clicked on HTML
@@ -238,8 +242,35 @@ function clearLine(input, line) {
 }
 
 
+function filterByKeyword(keyword) {
+    gImgsFiltered = [];
+    for (var i = 0; i < gImgs.length; i++) {
+        var keywords = gImgs[i].keywords
+        for (var j = 0; j < keywords.length; j++) {
+            if (keywords[j].indexOf(keyword) !== -1) {
+                gImgsFiltered.push(gImgs[i]);
+            }
+        }
+    }
+    if (gImgsFiltered.length === 0) {
+        console.log('no results found!');
+        renderImgs(false);
+        return;
+    } else {
+        renderImgs(true);
+    }
+}
 
 
+
+
+// function mapKeywords(){
+//     var keywords = [];
+//     for (var i = 0; i < gImgs.length; i++){
+//         keywords.push(gImgs[i].keywords);
+//     }
+//     console.log(keywords)
+// }
 
 
 
