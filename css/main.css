@@ -4,12 +4,16 @@
 
 @font-face {
     font-family: euro;
-    src: url('../fonts/eurofurence_regular/eurofurence_regular.ttf');
+    src: url('../fonts/eurofurence_regular.ttf');
 }
 
 @font-face {
     font-family: lato-regular;
     src: url('../fonts/Lato-Regular.ttf');
+}
+@font-face {
+    font-family: lato-bold;
+    src: url('../fonts/Lato-Bold.ttf');
 }
 
 @font-face {
@@ -17,8 +21,14 @@
     src: url('../fonts/MavenPro-Regular.ttf');
 }
 
+@font-face {
+    font-family: impact-regular;
+    src: url('../fonts/impact/impact.ttf');
+}
+
 body {
     margin: 0;
+    font-size: 16px;
 }
 
 a {
@@ -26,6 +36,7 @@ a {
     text-decoration: none;
     color: #fff;    
     /* height: 100%; */
+    cursor: pointer;
 }
 
 a .active {
@@ -102,6 +113,10 @@ button {
 .btn-width {
     width: 100%;
 }
+
+.btn-height {
+    height: 50px;
+}
 /* *************************************************************** */
 
 /* HEADER helpers */
@@ -156,9 +171,14 @@ main {
     align-items: center;
 }
 
-main div button.btn-back, main ul li>button {
+main div button.btn-back, main ul li>button, .font-family{
     background-color: #2eb398;
     color: #d7fcf5;
+    
+}
+.selected-font {
+    background-color: bisque;
+    color: #323232;
 }
 
 
@@ -279,6 +299,15 @@ main div button.btn-back, main ul li>button {
 .text-editors {
     width: 300px;
     /* max-height: 100px; */
+}
+
+li .download {
+    background-color: #2eb398;
+    color: #d7fcf5;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
 
 

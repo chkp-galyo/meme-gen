@@ -8,6 +8,8 @@ var gCurrImgId;
 var imgNextId;
 var gMeme = {}
 
+var gSelectedFont = 'impact-regular';
+
 
 var gImgs = [{ id: 1, url: 'img/1.jpg', keywords: ['happy', 'movies'] },
 { id: 2, url: 'img/2.jpg', keywords: ['happy', 'dance', 'movies'] },
@@ -81,7 +83,7 @@ function drawImage() {
     img.onload = function () {
         canvas.width = 500;
         canvas.height = canvas.width / (img.width/img.height);
-        gCtx.drawImage(img, 0, 0);
+        gCtx.drawImage(img, 0, 0, canvas.width, canvas.height);
     }
 }
 
@@ -91,11 +93,13 @@ function memeToDispaly() { // for loop for gMeme length
     for (var i = 0; i < gMeme.txts.length; i++){
 
     
-    gCtx.fillStyle = gMeme.txts[i].color;
-    gCtx.font = gMeme.txts[i].size + 'px arial';
+        gCtx.fillStyle = gMeme.txts[i].color;
+        
+    gCtx.font = gMeme.txts[i].size + 'px ' + gSelectedFont;
+
     gCtx.textAlign = gMeme.txts[i].align;
     gCtx.textAlignY = gMeme.txts[i].alignY;
-
+    
     switch (gMeme.txts[i].align) {
         case 'left':
             left = getCanvasLeft();
@@ -176,6 +180,12 @@ function alignText(textAlign, line) {
 function alignTextY(textAlignY, line) {
     gMeme.txts[line].alignY = textAlignY;
     redrawCanvas(line)
+}
+
+function changeFont(fontFamily) {
+    gSelectedFont = fontFamily;
+    console.log(gSelectedFont);
+    redrawCanvas()
 }
 
 function redrawCanvas() {
