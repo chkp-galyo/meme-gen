@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>MEMEGEN</title>
+    <link rel="stylesheet" href="css/hex-grid-galery.css">
     <link rel="stylesheet" href="css/main.css">
 </head>
 
@@ -16,159 +17,180 @@
                 <li class="menu-item">
                     <a href="#" class="acitve">portfolio</a>
                 </li>
+                <li class="menu-dot">.</li>
                 <li class="menu-item">
                     <a href="#">about</a>
                 </li>
+                <li class="">
                 <div class="menu-item nav-arrow">🠋</div>
+                </li>
+                <!-- <li id="hexGrid">
+                    <div class="menu-item nav-arrow hex">
+                        <div class="hexIn">
+                            <div class="hexLink">
+                                <img src="img/12.jpg" alt="">
+                            </div>
+                        </div>
+                    </div>
+
+                </li> -->
                 <!--this should be a hexagon div-->
                 <li class="menu-item">
                     <a href="#">blog</a>
                 </li>
+                <li class="menu-dot">.</li>
                 <li class="menu-item">
                     <a href="#">get in touch</a>
                 </li>
             </ul>
         </nav>
     </header>
+    <div class="main-page-container">
+        <div class="search-box filter flex justify-center"></div>
 
-    <div class="search-box filter flex justify-center"></div>
-    <section id="memeMapSearch" class="container">
-        
-    </section>
+        <section id="memeMapSearch" class="container"></section>
+        <section class="container galery"></section>
 
-    <section class="container galery"></section>
 
-    <main class="main_container flex wrap row space-around">
-        <div class="canvas-container">
-            <button class="btn-back btn-width btn-height hidden" onclick="backToGallery()">back to gallery</button>
-            <canvas id="canvas" class="canvas hidden"></canvas>
-        </div>
+        <section class="about_us flex column">
 
-        <ul class="meme-editor-container clean-list  column space-between hidden">
-            <li class="meme-editor-line1 flex column wrap space-between">
-                <div class="flex space-between">
-                    <button class="btn btn-clear-text" onclick="clearLine('.first-line', 0)">🗑</button>
-                    <input type="text" class="first-line" oninput="drawText(event, 0)" placeholder="text 1st line here">
+
+            <div class="my-profile">
+                <div class="container flex">
+                    <img src="img/1.jpg" alt="Gal and Itzik" class="img">
+                    <div class="text-profile">
+
+                        <h2>Smith Anderson</h2>
+                        <h3>Illustrator and Character Designer</h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris porttitor, nibh at sagittis tristique,
+                            enim magna pretium augue, eget consectetur sem dui non urna. Integer gravida, diam congue molestie
+                            fringilla, elit odio rhoncus turpis, ac dictum libero elit vel metus. Morbi egestas sit amet
+                            velit eget venenatis. Mauris porttitor, nibh at sagittis tristique, enim magna pretium augue,
+                            eget consectetur sem dui non urna</p>
+                        <div class="social-icons"></div>
+                    </div>
                 </div>
-                <div class="text-editors flex wrap space-between">
-                    <div class="btn-group">
-                        <button class="btn btn-align-left" onclick="alignText('left', 0)">L</button>
-                        <button class="btn btn-align-center" onclick="alignText('center', 0)">C</button>
-                        <button class="btn btn-align-right" onclick="alignText('right', 0)">R</button>
+            </div>
+        </section>
+        <section class="contact-us">
+            <div class="contact">
+                <div class="contact-info">
 
-                        <button class="btn btn-align-left" onclick="alignTextY('top', 0)">T</button>
-                        <button class="btn btn-align-center" onclick="alignTextY('center-y', 0)">C-C</button>
-                        <button class="btn btn-align-right" onclick="alignTextY('bottom', 0)">B</button>
-                        
+                    <div class="flex column form-contact">
+                        <h2>get in touch</h2>
+                        <h3>In order to get in touch use the contact form below:</h3>
+                        <input type="text" placeholder="Name (Requierd)">
+                        <input type="email" placeholder="Email (Required)">
+                        <input type="text" placeholder="Subject">
+                        <textarea placeholder="Write your message here..."></textarea>
+                        <button type="submit">Submit</button>
                     </div>
-                    <input type="color" value="#000" oninput="changeTextColor(event, 0)">
-                    <button class="btn btn-stroke" onclick="toggleStroke(0)">X</button>
-                    <div class="btn-group">
-                        <button class="btn btn-font-enlarge" onclick="decreaseFontSize(0)">🗛</button>
-                        <button class="btn btn-font-enlarge" onclick="increaseFontSize(0)">🗚</button>
+                    <div class="text-contact">
+                        <p>
+                            <span class="font-bold">Quisque Hendrerit:</span> purus dapibus, ornare nibh vitae, viverra nibh. Fusce vitae aliquam
+                            tellus. Proin sit amet volutpat libero. Nulla sed nunc et tortor luctus faucibus morbi vitae.
+                            </p>
                     </div>
-                    <div class="btn-group">
-                        <button class="btn btn-font-capitalize" onclick="upperCaseFont(0)">A</button>
-                        <button class="btn btn-font-uncapitalize" onclick="lowerCaseFont(0)">a</button>
-                    </div>
-
                 </div>
-            </li>
-            <li>
-                <button class="btn-width btn-height btn-add-line" onclick="addLine(this)">Add text line</button>
-            </li>
-            <li class="meme-editor-line2 column wrap space-between hidden">
-                <div class="flex space-between">
-                    <button class="btn btn-clear-text" onclick="clearLine('.second-line', 1)">🗑</button>
-                    <input type="text" class="second-line" oninput="drawText(event, 1)" placeholder="text 2st line here">
-                </div>
-                <div class="text-editors flex wrap space-between">
-                    <div class="btn-group">
-                        <button class="btn btn-align-left" onclick="alignText('left', 1)">L</button>
-                        <button class="btn btn-align-center" onclick="alignText('center', 1)">C</button>
-                        <button class="btn btn-align-right" onclick="alignText('right', 1)">R</button>
+            </div>
+        </section>
+    </div>
+  
 
-                        <button class="btn btn-align-left" onclick="alignTextY('top', 1)">T</button>
-                        <button class="btn btn-align-center" onclick="alignTextY('center-y', 1)">C-C</button>
-                        <button class="btn btn-align-right" onclick="alignTextY('bottom', 1)">B</button>
+    <main class="meme-main_container flex flex-wrap column space-between hidden">
+        <button class="btn-back btn-width btn-height " onclick="backToGallery()">back to gallery</button>
+        <div class="canvas-and-editor-container flex flex-wrap space-around">
+            <div class="canvas-container">
+                <canvas id="canvas" class="canvas "></canvas>
+            </div>
+
+            <ul class="meme-editor-container clean-list column ">
+                <li class="meme-editor-line1 flex column flex-wrap space-between">
+                    <div class="flex space-between">
+                        <button class="btn btn-clear-text" onclick="clearLine('.first-line', 0)">🗑</button>
+                        <input type="text" class="first-line" oninput="drawText(event, 0)" placeholder="text 1st line here">
                     </div>
-                    <input type="color" value="#ff0000" oninput="changeTextColor(event, 1)">
-                    <button class="btn btn-stroke" onclick="toggleStroke(1)">X</button>
-                    <div class="btn-group">
-                        <button class="btn btn-font-enlarge" onclick="decreaseFontSize(1)">🗛</button>
-                        <button class="btn btn-font-enlarge" onclick="increaseFontSize(1)">🗚</button>
+                    <div class="text-editors flex flex-wrap space-between">
+                        <div class="btn-group">
+                            <button class="btn btn-align-left" onclick="alignText('left', 0)">L</button>
+                            <button class="btn btn-align-center" onclick="alignText('center', 0)">C</button>
+                            <button class="btn btn-align-right" onclick="alignText('right', 0)">R</button>
+
+                            <button class="btn btn-align-left" onclick="alignTextY('top', 0)">T</button>
+                            <button class="btn btn-align-center" onclick="alignTextY('center-y', 0)">C-C</button>
+                            <button class="btn btn-align-right" onclick="alignTextY('bottom', 0)">B</button>
+
+                        </div>
+                        <input type="color" value="#000" oninput="changeTextColor(event, 0)">
+                        <button class="btn btn-stroke" onclick="toggleStroke(0)">X</button>
+                        <div class="btn-group">
+                            <button class="btn btn-font-enlarge" onclick="decreaseFontSize(0)">🗛</button>
+                            <button class="btn btn-font-enlarge" onclick="increaseFontSize(0)">🗚</button>
+                        </div>
+                        <div class="btn-group">
+                            <button class="btn btn-font-capitalize" onclick="upperCaseFont(0)">A</button>
+                            <button class="btn btn-font-uncapitalize" onclick="lowerCaseFont(0)">a</button>
+                        </div>
+
                     </div>
-                    <div class="btn-group">
+                </li>
+                <li>
+                    <button class="btn-width btn-height btn-add-line" onclick="addLine(this)">Add text line</button>
+                </li>
+                <li class="meme-editor-line2 column flex-wrap space-between hidden">
+                    <div class="flex space-between">
+                        <button class="btn btn-clear-text" onclick="clearLine('.second-line', 1)">🗑</button>
+                        <input type="text" class="second-line" oninput="drawText(event, 1)" placeholder="text 2st line here">
+                    </div>
+                    <div class="text-editors flex flex-wrap space-between">
+                        <div class="btn-group">
+                            <button class="btn btn-align-left" onclick="alignText('left', 1)">L</button>
+                            <button class="btn btn-align-center" onclick="alignText('center', 1)">C</button>
+                            <button class="btn btn-align-right" onclick="alignText('right', 1)">R</button>
+
+                            <button class="btn btn-align-left" onclick="alignTextY('top', 1)">T</button>
+                            <button class="btn btn-align-center" onclick="alignTextY('center-y', 1)">C-C</button>
+                            <button class="btn btn-align-right" onclick="alignTextY('bottom', 1)">B</button>
+                        </div>
+                        <input type="color" value="#ff0000" oninput="changeTextColor(event, 1)">
+                        <button class="btn btn-stroke" onclick="toggleStroke(1)">X</button>
+                        <div class="btn-group">
+                            <button class="btn btn-font-enlarge" onclick="decreaseFontSize(1)">🗛</button>
+                            <button class="btn btn-font-enlarge" onclick="increaseFontSize(1)">🗚</button>
+                        </div>
+                        <div class="btn-group">
                             <button class="btn btn-font-capitalize" onclick="upperCaseFont(1)">A</button>
                             <button class="btn btn-font-uncapitalize" onclick="lowerCaseFont(1)">a</button>
-                    </div>
+                        </div>
 
-                </div>
-            </li>
-            <li>
-                <select class="font-family btn-width btn-height" onchange="onFontChange(value)">
-                    <!-- <option value="fantasy">fantasy</option> -->
-                    <option class="selected-font" value="monospace">monospace</option>
-                    <option class="selected-font" value="lato-bold">lato</option>
-                    <option class="selected-font" value="euro">euro</option>
-                    <option class="selected-font" value="maven-regular">maven</option>
-                    <option class="selected-font" value="impact-regular" selected>impact</option>
-                </select>
-            </li>
-            <li>
-                <button class="btn-width btn-height">More options</button>
-            </li>
-            <li>
-                <div class="download btn-width btn-height">
-                    <a class="download" onclick="downloadCanvas(this)">SAVE ME(ME)</a>
-                </div>
-            </li>
-        </ul>
+                    </div>
+                </li>
+                <li>
+                    <select class="font-family btn-width btn-height" onchange="onFontChange(value)">
+                        <!-- <option value="fantasy">fantasy</option> -->
+                        <option class="selected-font" value="monospace">monospace</option>
+                        <option class="selected-font" value="lato-bold">lato</option>
+                        <option class="selected-font" value="euro">euro</option>
+                        <option class="selected-font" value="maven-regular">maven</option>
+                        <option class="selected-font" value="impact-regular" selected>impact</option>
+                    </select>
+                </li>
+                <li>
+                    <button class="btn-width btn-height">More options</button>
+                </li>
+                <li>
+                    <button class="download btn btn-width btn-height">
+                        <a class="download" onclick="downloadCanvas(this)">SAVE ME(ME)</a>
+                    </button>
+                </li>
+            </ul>
+        </div>
 
     </main>
-    <section class="about_us flex column">
 
-
-        <div class="my-profile">
-            <div class="container flex">
-                <img src="img/1.jpg" alt="Gal and Itzik" class="img">
-                <div class="text-profile">
-
-                    <h2>Smith Anderson</h2>
-                    <h3>Illustrator and Character Designer</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris porttitor, nibh at sagittis tristique,
-                        enim magna pretium augue, eget consectetur sem dui non urna. Integer gravida, diam congue molestie
-                        fringilla, elit odio rhoncus turpis, ac dictum libero elit vel metus. Morbi egestas sit amet velit
-                        eget venenatis. Mauris porttitor, nibh at sagittis tristique, enim magna pretium augue, eget consectetur
-                        sem dui non urna</p>
-                    <div class="social-icons"></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="contact">
-            <div class="contact-info">
-
-                <div class="flex column form-contact">
-                    <h2>get in touch</h2>
-                    <h3>In order to get in touch use the contact form below:</h3>
-                    <input type="text" placeholder="Name (Requierd)">
-                    <input type="email" placeholder="Email (Required)">
-                    <input type="text" placeholder="Subject">
-                    <textarea placeholder="Write your message here..."></textarea>
-                    <button type="submit">Submit</button>
-                </div>
-                <div class="text-contact">
-                    <p>
-                        <span class="font-bold">Quisque Hendrerit:</span> purus dapibus, ornare nibh vitae, viverra nibh. Fusce vitae aliquam tellus.
-                        Proin sit amet volutpat libero. Nulla sed nunc et tortor luctus faucibus morbi vitae. </p>
-                </div>
-            </div>
-        </div>
-    </section>
     <footer>
-        © Copyright 2013 by PSDchat
-    </footer>
+            © Copyright 2013 by PSDchat
+        </footer>
 
 
     <script src="js/meme-service.js"></script>
