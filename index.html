@@ -48,7 +48,7 @@
 
     <div class="main-page-container">
         <div class="search-box filter flex justify-center"></div>
-
+        <button class="" onclick="clearFilter()">Show All</button>
         <section id="memeMapSearch" class="container"></section>
         <section class="container galery"></section>
 
@@ -77,11 +77,11 @@
                     <div class="flex column form-contact">
                         <h2>get in touch</h2>
                         <h3>In order to get in touch use the contact form below:</h3>
-                        <input type="text" placeholder="Name (Requierd)">
-                        <input type="email" placeholder="Email (Required)">
-                        <input type="text" placeholder="Subject">
-                        <textarea placeholder="Write your message here..."></textarea>
-                        <button type="submit">Submit</button>
+                        <input type="text" class="msg-name" placeholder="Name">
+                        <input type="email" class="msg-email" placeholder="Email">
+                        <input type="text" class="msg-sbj" placeholder="Subject">
+                        <textarea class="msg-txt" placeholder="Write your message here..."></textarea>
+                        <button onclick="sendEmail()">Submit</button>
                     </div>
                     <div class="text-contact">
                         <p>
@@ -101,14 +101,12 @@
             <div class="canvas-container">
                 <canvas id="canvas" class="canvas hidden" onclick="handleClick(event)"></canvas>
             </div>
-            <!-- <ul class="meme-editor-container clean-list  column space-between hidden"> -->
-            <!-- <li class="meme-editor-line1 flex column wrap space-between"> -->
 
             <ul class="meme-editor-container clean-list column hidden">
                 <li class="meme-editor-line1 flex column flex-wrap space-between">
                     <div class="flex space-between">
                         <button class="btn btn-clear-text" onclick="clearLine('.first-line')">🗑</button>
-                        <input type="text" class="first-line" oninput="drawText(this)" placeholder="text 1st line here">
+                        <input type="text" class="first-line" oninput="drawText(this)" placeholder="New Line">
                     </div>
                     <div class="text-editors flex flex-wrap space-between">
                         <div class="btn-group">
@@ -164,6 +162,14 @@
                 </li>
                 <li>
                     <button class="btn-width btn-height">More options</button>
+
+                    <input class="btn-width btn-height" type="file" name="image" onchange="onFileInputChange(event)" />
+                    <!-- <div class="fb-share"><button onclick="renderFbShareBtn()">publish!</button></div> -->
+                    <form action="" method="POST" enctype="multipart/form-data" onsubmit="uploadImg(this, event)">
+                        <input name="img" id="imgData" type=""/>
+                        <button type="submit">Publish</button>
+                    </form>
+                    <div class="fb-share"></div>
                 </li>
                 <li>
                     <button class="download btn btn-width btn-height">

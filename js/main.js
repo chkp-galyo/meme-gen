@@ -145,14 +145,14 @@ function addLine(elBtn) {
     var newLine = {
         memeText: '',
         size: 40,
-        align: 'center',
-        alignY: 'center',
+        align: 'left',
+        alignY: 'top',
         color: '#000000',
         upperCase: false,
         stroke: false,
         pos: {
-            l: null,
-            t: null,
+            l: 50,
+            t: 50,
             w: null,
             h: null
         },
@@ -164,6 +164,7 @@ function addLine(elBtn) {
     var textBox = document.querySelector('.first-line');
     textBox.value = 'New Line';
     drawText(textBox);
+    textBox.value = '';    
 }
 
 function resetColorInput() {
@@ -178,6 +179,10 @@ function onFontChange(value) {
     changeFont(elFontFamily.value);
 }
 
+
+function onFileInputChange(ev) {
+    handleImageFromInput(ev, drawImage)
+}
 
 function downloadCanvas(elLink) {
     elLink.href = gElCanvas.toDataURL();
@@ -202,4 +207,11 @@ function renderSearchBox(){
 
 function renderInputVal(txt){
     document.querySelector('.first-line').value = txt;
+}
+
+
+function sendEmail(){
+    var sbj = document.querySelector('.msg-sbj').value;
+    var msg = `Hi I am ${document.querySelector('.msg-name').value}, %0D%0A${document.querySelector('.msg-txt').value}. %0D%0Amy email addres is: ${document.querySelector('.msg-email').value}`;
+    window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=galyogev5@gmail.com&su=${sbj}&body=${msg}`, '_blank');
 }
