@@ -15,7 +15,7 @@ function rendersearchRibon() {
     for (var key in gMapKeysSearchd) {
         if (gMapKeysSearchd.hasOwnProperty(key)) {
             // console.log(key, valueCounts[key]);
-            strHTML += `<li style="margin: 10px"><a href="#" class="key key-${key}" style="font-size: ${gMapKeysSearchd[key] *2 + 10}px" onclick="keySearchClicked(this)">${key}</a></li>`
+            strHTML += `<li style="margin: 10px"><a href="#" class="key key-${key}" style="font-size: ${gMapKeysSearchd[key] + 2 + 10}px" onclick="keySearchClicked(this)">${key}</a></li>`
         }
     }
 
@@ -26,9 +26,22 @@ function rendersearchRibon() {
 
 }
 
+
+/*
+<ul id="hexGrid">
+      <li class="hex">
+        <div class="hexIn">
+          <a class="hexLink" href="#">
+            <img src="https://farm9.staticflickr.com/8461/8048823381_0fbc2d8efb.jpg" alt="" />
+            <h1>This is a title</h1>
+            <p>Some sample text about the article this hexagon leads to</p>
+          </a>
+        </div>
+      </li>
+*/
 function renderImgs(isFilter) {
     var allImgs = galeryImgsToDispaly(isFilter);
-    var strHtml = '<ul class="container galery-imgs-container flex row flex-wrap clean-list">';
+    var strHtml = '<ul id="hexGrid">';
     var renderdImgsIds = [];
     for (var i = 0; i < allImgs.length; i++) {
         var currImg = allImgs[i]
@@ -36,13 +49,41 @@ function renderImgs(isFilter) {
             continue;
         }
         renderdImgsIds.push(currImg.id);
-        strHtml += `<li class="galery-img"><div style="background-image: url('${currImg.url}')" id="${currImg.id}" class="img img-${currImg.id}" onclick="onImgClick(${currImg.id})"></div></li>`
+        // strHtml += `<li class="galery-img"><div style="background-image: url('${currImg.url}')" id="${currImg.id}" class="img img-${currImg.id}" onclick="onImgClick(${currImg.id})"></div></li>`
+        strHtml += `<li class="hex">
+        <div class="hexIn">
+          <a class="hexLink" href="#" onclick="onImgClick(${currImg.id})">
+            <img src="${currImg.url}" alt="" />
+            <h1>This is a title</h1>
+            <p>Some sample text about the article this hexagon leads to</p>
+          </a>
+        </div>
+      </li>`
     }
     strHtml += '</ul>'
     document.querySelector('.galery').innerHTML = strHtml;
 }
+// function renderImgs(isFilter) {
+//     var allImgs = galeryImgsToDispaly(isFilter);
+//     var strHtml = '<ul class="container galery-imgs-container flex row flex-wrap clean-list">';
+//     var renderdImgsIds = [];
+//     for (var i = 0; i < allImgs.length; i++) {
+//         var currImg = allImgs[i]
+//         if (renderdImgsIds.includes(currImg.id)){
+//             continue;
+//         }
+//         renderdImgsIds.push(currImg.id);
+//         strHtml += `<li class="galery-img"><div style="background-image: url('${currImg.url}')" id="${currImg.id}" class="img img-${currImg.id}" onclick="onImgClick(${currImg.id})"></div></li>`
+//     }
+//     strHtml += '</ul>'
+//     document.querySelector('.galery').innerHTML = strHtml;
+// }
 
 function onImgClick(imgId) {
+
+    var elMainPage = document.querySelector('.main-page-container');
+    elMainPage.classList.add('hidden');
+    
     var elGalery = document.querySelector(".galery");
     elGalery.classList.add("hidden");
 
@@ -58,6 +99,8 @@ function onImgClick(imgId) {
 }
 
 function backToGallery() {
+    var elMainPage = document.querySelector('.main-page-container');
+    elMainPage.classList.remove('hidden');
     document.querySelector('.first-line').value = '';
     document.querySelector('.second-line').value = '';
     
@@ -135,8 +178,8 @@ function onFontChange(value) {
     changeFont(elFontFamily.value);
 }
 
+
 function downloadCanvas(elLink) {
-    // console.log(gElCanvas.toDataURL());
     elLink.href = gElCanvas.toDataURL();
     elLink.download = 'my-meme.jpg';
 }
