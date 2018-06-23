@@ -74,9 +74,16 @@ function createMeme() {
             size: 40,
             align: 'left',
             alignY: 'top',
-            color: 'black',
+            color: '#000000',
             upperCase: false,
             stroke: false,
+            pos: {
+                l: null,
+                t: null,
+                w: null,
+                h: null
+            },
+            isSelected: true
         }
     ];
 }
@@ -98,20 +105,20 @@ function drawImage() {
     }
 }
 
-function memeToDispaly() { // for loop for gMeme length
+function memeToDispaly() { 
     var left;
     var top;
     for (var i = 0; i < gMeme.txts.length; i++) {
+        var currMeme = gMeme.txts[i];
 
+        gCtx.fillStyle = currMeme.color;
 
-        gCtx.fillStyle = gMeme.txts[i].color;
+        gCtx.font = currMeme.size + 'px ' + gSelectedFont;
 
-        gCtx.font = gMeme.txts[i].size + 'px ' + gSelectedFont;
+        gCtx.textAlign = currMeme.align;
+        gCtx.textAlignY = currMeme.alignY;
 
-        gCtx.textAlign = gMeme.txts[i].align;
-        gCtx.textAlignY = gMeme.txts[i].alignY;
-
-        switch (gMeme.txts[i].align) {
+        switch (currMeme.align) {
             case 'left':
                 left = getCanvasLeft();
                 top = top;
@@ -126,7 +133,7 @@ function memeToDispaly() { // for loop for gMeme length
                 break;
         }
 
-        switch (gMeme.txts[i].alignY) {
+        switch (currMeme.alignY) {
             case 'top':
                 left = left;
                 top = getCanvasTop();
@@ -138,6 +145,7 @@ function memeToDispaly() { // for loop for gMeme length
             case 'bottom':
                 left = left;
                 top = getCanvasBottom();
+                break;
         }
 
         console.log(left, top)
@@ -145,63 +153,131 @@ function memeToDispaly() { // for loop for gMeme length
         // drawOnCanvas(left, top) 
 
         // gCtx.fillStyle = gColor;
-        if (gMeme.txts[i].upperCase) {
-            var upperCaseText = gMeme.txts[i].memeText.toUpperCase();
-            gMeme.txts[i].memeText = upperCaseText;
+        if (currMeme.upperCase) {
+            var upperCaseText = currMeme.memeText.toUpperCase();
+            currMeme.memeText = upperCaseText;
         }
         
-        gCtx.fillText(gMeme.txts[i].memeText, left, top + gMeme.txts[i].size)
-
-        if (gMeme.txts[i].stroke) {
-            gCtx.strokeText(gMeme.txts[i].memeText, left, top + gMeme.txts[i].size);
+        if (currMeme.stroke) {
+            gCtx.strokeText(currMeme.memeText, left + 1, top + 1);
         }
+
+        gCtx.fillText(currMeme.memeText, left, top)
+
+        var txtWidth = gCtx.measureText(currMeme.memeText).width;
+        var txtHeight = currMeme.size;
+        var align = currMeme.align;
+
+        drawBgText(i, align, left, top - txtHeight, txtWidth, txtHeight);
+
+
     }
 }
 
 
+function drawBgText(line, align, l, t, w, h){
+    gCtx.fillStyle = 'rgba(0, 0, 0, 0)';
+    var currMeme = gMeme.txts[line];
+    switch (align){
+        case 'left':
+            gCtx.fillRect(l, t, w, h);
+            currMeme.pos.l = l;
+            currMeme.pos.t = t;
+            currMeme.pos.w = w;
+            currMeme.pos.h = h;
+            break;
+        case 'center':
+            gCtx.fillRect(l - w / 2, t, w, h);
+            currMeme.pos.l = l - w / 2;
+            currMeme.pos.t = t;
+            currMeme.pos.w = w;
+            currMeme.pos.h = h;
+            break;
+        case 'right':
+            gCtx.fillRect(l - w, t, w, h); 
+            currMeme.pos.l = l - w;
+            currMeme.pos.t = t;
+            currMeme.pos.w = w;
+            currMeme.pos.h = h;     
+    }
+}
 
-// for all those functions send an i from btn clicked on HTML
+function handleClick(ev){
+    for (var i = 0; i < gMeme.txts.length; i++){
+        var currMeme = gMeme.txts[i];
+        if (ev.offsetX > currMeme.pos.l &&
+            ev.offsetX < currMeme.pos.l + currMeme.pos.w &&
+            ev.offsetY > currMeme.pos.t &&
+            ev.offsetY < currMeme.pos.t + currMeme.pos.h
+        ) {
+            currMeme.isSelected = true;
+            renderInputVal(currMeme.memeText);
+            setTimeout(resetColorInput, 0)
+        } else currMeme.isSelected = false;
+    }
+}
 
-function drawText(ev, line) {
-    console.log(line)
-    console.log(ev.target.value)
-    // var elTxt = document.querySelector('.first-line')
-    var elTxt = ev.target.value;
+
+function getCurrColor(){
+    var line = checkForSelectedLine()
+    return gMeme.txts[line].color;
+}
+
+
+function drawText(input) {
+    var line = checkForSelectedLine()
+    var elTxt = input.value;
     gMeme.txts[line].memeText = elTxt;
+    resetColorInput()
     redrawCanvas(line)
 }
 
-function increaseFontSize(line) {
+function checkForSelectedLine() {
+    var line;
+    for (var i = 0; i < gMeme.txts.length; i++){
+        if (gMeme.txts[i].isSelected) line = i;
+    }
+    return line;
+}
+
+function increaseFontSize() {
+    var line = checkForSelectedLine()
     gMeme.txts[line].size += 5;
-    redrawCanvas(line)
+    redrawCanvas()
 }
 
-function decreaseFontSize(line) {
+function decreaseFontSize() {
+    var line = checkForSelectedLine()
     gMeme.txts[line].size -= 5;
-    redrawCanvas(line)
+    redrawCanvas()
 }
 
-function changeTextColor(ev, line) {
+function changeTextColor(ev) {
+    var line = checkForSelectedLine()
     var color = ev.target.value;
     gMeme.txts[line].color = color;
     gColor = color;
-    redrawCanvas(line)
+    redrawCanvas()
 }
 
-function toggleStroke(line) {
-
-    (!gMeme.txts[line].stroke) ? gMeme.txts[line].stroke = true : gMeme.txts[line].stroke = false;
-    redrawCanvas(line);
+function toggleStroke() {
+    var line = checkForSelectedLine()
+    setTimeout(function() {
+        (!gMeme.txts[line].stroke) ? gMeme.txts[line].stroke = true : gMeme.txts[line].stroke = false;
+    }, 0);
+    redrawCanvas();
 }
 
-function alignText(textAlign, line) {
+function alignText(textAlign) {
+    var line = checkForSelectedLine()
     gMeme.txts[line].align = textAlign;
-    redrawCanvas(line)
+    redrawCanvas()
 }
 
-function alignTextY(textAlignY, line) {
+function alignTextY(textAlignY) {
+    var line = checkForSelectedLine()
     gMeme.txts[line].alignY = textAlignY;
-    redrawCanvas(line)
+    redrawCanvas()
 }
 
 function changeFont(fontFamily) {
@@ -216,44 +292,45 @@ function redrawCanvas() {
 }
 
 function getCanvasLeft() {
-    return gElCanvas.width * 0.1;
+    return canvas.width * .05;
 }
 
 function getCanvasCenter() {
-    return gElCanvas.width / 2;
+    return canvas.width / 2;
 }
 
 function getCanvasRight() {
-    return gElCanvas.width - 50;
+    return canvas.width - 10;
 }
 
 function getCanvasTop() {
-    return gElCanvas.height * 0.1;
+    return canvas.height * .1 ;
 }
 
 function getCanvasCenterY() {
-    return gElCanvas.height / 2;
+    return canvas.height / 2;
 }
 
 function getCanvasBottom() {
-    return gElCanvas.height - 100;
+    return canvas.height - 10;
 }
 
-function upperCaseFont(line) {
-    // var upperCaseText = gMeme.txts[line].memeText.toUpperCase();
-    // gMeme.txts[line].memeText = upperCaseText;
+function upperCaseFont() {
+    var line = checkForSelectedLine()
     gMeme.txts[line].upperCase = true;
     redrawCanvas(line);
 }
 
-function lowerCaseFont(line) {
+function lowerCaseFont() {
+    var line = checkForSelectedLine()
     var lowerCaseText = gMeme.txts[line].memeText.toLowerCase();
     gMeme.txts[line].memeText = lowerCaseText;
     gMeme.txts[line].upperCase = false;
     redrawCanvas(line);
 }
 
-function clearLine(input, line) {
+function clearLine(input) {
+    var line = checkForSelectedLine()
     gMeme.txts[line].memeText = '';
     document.querySelector(input).value = '';
     redrawCanvas(line);
@@ -302,15 +379,9 @@ function keySearchClicked(elKey) {
 }
 
 function createImgs() {
-
     var imgs = loadFromStorage(IMGS_KEY);
     if (!imgs || imgs.length === 0) {
         imgs = gImgs;
-        // books.push(createBook('Run Lola Run', 29.90, `<img src="img/1-dummy_cover.jpg">`));
-        // books.push(createBook('Anna Carenina', 21.90, `<img src="img/2-dummy_cover.jpg">`));
-        // books.push(createBook('Eurovision History', 49.90, `<img src="img/3-dummy_cover.jpg">`));
-        // books.push(createBook('Master CSS', 28.90, `<img src="img/4-dummy_cover.jpg">`));
-        // books.push(createBook('Do It Now', 9.90, `<img src="img/5-dummy_cover.jpg">`));
     }
     gImgs = imgs;
     saveImgs();

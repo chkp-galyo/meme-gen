@@ -95,21 +95,36 @@ function showEditor() {
 }
 
 function addLine(elBtn) {
-    var elSecondLine = document.querySelector('.meme-editor-line2');
-    elSecondLine.classList.add('flex');
-    elBtn.classList.add('hidden');
+    gMeme.txts.forEach(function (meme){
+        meme.isSelected = false;
+    })
 
-    var secondLine = {
+    var newLine = {
         memeText: '',
         size: 40,
-        align: 'left',
-        alignY: 'bottom',
-        color: 'red',
-        upperCase: false
+        align: 'center',
+        alignY: 'center',
+        color: '#000000',
+        upperCase: false,
+        stroke: false,
+        pos: {
+            l: null,
+            t: null,
+            w: null,
+            h: null
+        },
+        isSelected: true
     };
 
-    gMeme.txts.push(secondLine);
-    // gMeme.txts[1]['alignY'] = 'bottom'
+    gMeme.txts.push(newLine);
+
+    var textBox = document.querySelector('.first-line');
+    textBox.value = 'New Line';
+    drawText(textBox);
+}
+
+function resetColorInput() {
+    document.querySelector('.color-picker').value = getCurrColor();
 }
 
 function onFontChange(value) {
@@ -127,7 +142,7 @@ function downloadCanvas(elLink) {
 }
 
 function onSearch(){
-    var keyword = document.querySelector('.searchBox').value;
+    var keyword = document.querySelector('.searchBox').value.toLowerCase();
     filterByKeyword(keyword);
 }
 
@@ -140,4 +155,8 @@ function renderSearchBox(){
     }
     strHtml += `</datalist>`;
     document.querySelector('.filter').innerHTML = strHtml;
+}
+
+function renderInputVal(txt){
+    document.querySelector('.first-line').value = txt;
 }
