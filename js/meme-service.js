@@ -6,9 +6,10 @@ var MAP_SEARCH_KEY = 'map_search_keys'
 var gElCanvas;
 var gCtx;
 var gColor = 'white';
+var gCurrLine = 0;
+var dragOK = false;
 
 var gCurrImgId;
-var imgNextId;
 var gMeme = {}
 var gSearchWords = ['happy', 'movies', 'dance', 'hertzel', 'angry',
     'love', 'win', 'baby', 'sleep', 'cat', 'funny', 'dog', 'sport', 'serious', 'putin']
@@ -46,11 +47,17 @@ var gImgs = [{ id: 1, url: 'img/1.jpg', keywords: ['happy', 'movies'] },
 { id: 26, url: 'img/26.jpg', keywords: ['funny', 'hertzel'] },
 ];
 
+var imgNextId = gImgs.length + 1;
+
 
 function galeryImgsToDispaly(isFilter) {
     createImgs();
     if (isFilter) return gImgsFiltered;
     else return gImgs;
+}
+
+function clearFilter() {
+    renderImgs(false)
 }
 
 function imgClicked(imgId, elCanvas) {
@@ -62,8 +69,50 @@ function imgClicked(imgId, elCanvas) {
     drawCanvas();
     drawImage();
 
+    canvas.onmousedown = myDown;
+    canvas.onmouseup = myUp;
 
+    
+    // setInterval(redrawCanvas, 10)
 }
+
+
+function myMove(e) {
+    if (dragOK) {
+        var txts = gMeme.txts;
+        txts[gCurrLine].align = e.pageX - canvas.offsetLeft;
+        txts[gCurrLine].alignY = e.pageY - canvas.offsetTop;
+        console.log('left, top > ', txts[gCurrLine].left, txts[gCurrLine].left)
+        redrawCanvas()
+    }
+}
+
+function myDown(ev) {
+    var txts = gMeme.txts;
+    for (var i = 0; i < txts.length; i++) {
+        var currMeme = txts[i];
+        // var textLength = (txt.line.length * txt.size) / 2;
+        //check if the mouse is on the word
+        if (ev.offsetX > currMeme.pos.l &&
+            ev.offsetX < currMeme.pos.l + currMeme.pos.w &&
+            ev.offsetY > currMeme.pos.t &&
+            ev.offsetY < currMeme.pos.t + currMeme.pos.h) {
+                console.log('myDown says > yes you clicked the line', currMeme.memeText)
+            gCurrLine = i;
+            dragOK = true;
+            canvas.onmousemove = myMove;
+            break;
+        }
+    }
+}
+
+function myUp() {
+    console.log('myup');
+    dragOK = false;
+    canvas.onmousemove = null;
+    gMeme.txts[gCurrLine].isSelected = true;
+}
+
 
 function createMeme() {
 
@@ -118,6 +167,8 @@ function memeToDispaly() {
         gCtx.textAlign = currMeme.align;
         gCtx.textAlignY = currMeme.alignY;
 
+        console.log('currmeme align is >',currMeme.align)
+
         switch (currMeme.align) {
             case 'left':
                 left = getCanvasLeft();
@@ -131,6 +182,9 @@ function memeToDispaly() {
                 left = getCanvasRight();
                 top = top;
                 break;
+            default:
+                left = currMeme.align;
+                top = currMeme.alignY;
         }
 
         switch (currMeme.alignY) {
@@ -146,7 +200,15 @@ function memeToDispaly() {
                 left = left;
                 top = getCanvasBottom();
                 break;
+            default:
+                left = currMeme.align;
+                top = currMeme.alignY;
         }
+
+        currMeme.pos.l = left;
+        currMeme.pos.t = top;
+
+        console.log('pos.l , pos.t >', currMeme.pos.l, currMeme.pos.t)
 
         console.log(left, top)
 
@@ -176,7 +238,12 @@ function memeToDispaly() {
 
 
 function drawBgText(line, align, l, t, w, h){
-    gCtx.fillStyle = 'rgba(0, 0, 0, 0)';
+    if (line === gCurrLine){
+        gCtx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+    } else {
+        gCtx.fillStyle = 'rgba(0, 0, 0, 0)';        
+    }
+    
     var currMeme = gMeme.txts[line];
     switch (align){
         case 'left':
@@ -198,7 +265,14 @@ function drawBgText(line, align, l, t, w, h){
             currMeme.pos.l = l - w;
             currMeme.pos.t = t;
             currMeme.pos.w = w;
-            currMeme.pos.h = h;     
+            currMeme.pos.h = h;  
+            break;
+        default:
+            gCtx.fillRect(l, t, w, h); 
+            currMeme.pos.l = l;
+            currMeme.pos.t = t;
+            currMeme.pos.w = w;
+            currMeme.pos.h = h;  
     }
 }
 
@@ -210,10 +284,16 @@ function handleClick(ev){
             ev.offsetY > currMeme.pos.t &&
             ev.offsetY < currMeme.pos.t + currMeme.pos.h
         ) {
+            // console.log('hamdleClick says you clicked the line > ', currMeme.memeText)
+            gCurrLine = i;
             currMeme.isSelected = true;
+            redrawCanvas();
             renderInputVal(currMeme.memeText);
-            setTimeout(resetColorInput, 0)
-        } else currMeme.isSelected = false;
+            setTimeout(resetColorInput, 0);
+        } else {
+            currMeme.isSelected = false;
+            gMeme.txts[gCurrLine].isSelected = true;
+        }
     }
 }
 
@@ -337,6 +417,25 @@ function clearLine(input) {
 }
 
 
+function handleImageFromInput(ev, onImageReady) {
+    // document.querySelector('.share-container').innerHTML = ''
+    // debugger;
+
+    var reader = new FileReader();
+
+    reader.onload = function (event) {
+        gImgs.push({id: imgNextId, url: event.target.result, keywords: []})
+        gCurrImgId = imgNextId;
+        imgNextId++;
+        var img = new Image();
+        img.onload = onImageReady.bind(null, img)
+        img.src = event.target.result;
+    }
+    reader.readAsDataURL(ev.target.files[0]);
+}
+
+
+
 function filterByKeyword(keyword) {
     gImgsFiltered = [];
     for (var i = 0; i < gImgs.length; i++) {
@@ -407,6 +506,63 @@ function saveMapKeys() {
 }
 
 
+
+
+// Facebook Code For Share! //
+
+// function renderFbShareBtn(){
+//     var img = gElCanvas.toDataURL();
+//     var strHtml = `    
+//   <div class="fb-share-button" data-href="${img}" data-layout="button_count" data-size="small" data-mobile-iframe="true">
+//   <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=${img}&amp;src=sdkpreparse" 
+//   class="fb-xfbml-parse-ignore">SHARE</a></div>`
+//     document.querySelector('.fb-share').innerHTML = strHtml;
+// }
+
+
+function uploadImg(elForm, ev) {
+    ev.preventDefault();
+    document.querySelector('.fb-share').innerHTML = '';
+    document.getElementById('imgData').value = canvas.toDataURL("image/jpeg");
+   
+    // A function to be called if request succeeds
+    function onSuccess(uploadedImgUrl) {
+        console.log('uploadedImgUrl', uploadedImgUrl);
+
+        uploadedImgUrl = encodeURIComponent(uploadedImgUrl)
+        document.querySelector('.fb-share').innerHTML = `
+        <a class="w-inline-block social-share-btn fb" href="https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
+           Share   
+        </a>`
+    }
+
+    doUploadImg(elForm, onSuccess);
+}
+
+function doUploadImg(elForm, onSuccess) {
+    var formData = new FormData(elForm);
+
+    fetch('http://ca-upload.com/here/upload.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(function (response) {
+        return response.text()
+    })
+    .then(onSuccess)
+    .catch(function (error) {
+        console.error(error)
+    })
+}
+
+
+// (function(d, s, id) {
+//     var js, fjs = d.getElementsByTagName(s)[0];
+//     if (d.getElementById(id)) return;
+//     js = d.createElement(s); js.id = id;
+//     js.src = 'https://connect.facebook.net/he_IL/sdk.js#xfbml=1&version=v3.0';
+//     fjs.parentNode.insertBefore(js, fjs);
+//   }(document, 'script', 'facebook-jssdk'));
 
 
 
