@@ -273,6 +273,9 @@ main {
     /* margin-top: 20px; */
     width: 100%;
     height: 50px;
+    background-color: rgba(0, 128, 128, 0.8);
+    color: wheat;
+    font-size: 26px;
 }
 
 /* main div button.btn-back, main ul li>button, .font-family{
@@ -402,6 +405,10 @@ section.about-us {
 .contact-info {
     display: flex;
     padding: 20px;
+}
+
+.contact-info input, .contact-info textarea {
+    padding-left: 10px;
 }
 
 .form-contact {
