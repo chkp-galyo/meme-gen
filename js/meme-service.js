@@ -80,8 +80,8 @@ function imgClicked(imgId, elCanvas) {
                 if (gCurrLine === i){
                 // Assign new coordinates to our object
                 // console.log(canvas.width, window.innerWidth)
-                currMeme.align = touch.pageX;
-                currMeme.alignY = touch.pageY - 70;
+                currMeme.align = touch.pageX - 70;
+                currMeme.alignY = touch.pageY - 120;
                 
                 // Redraw the canvas
                redrawCanvas();
@@ -89,7 +89,6 @@ function imgClicked(imgId, elCanvas) {
             event.preventDefault();
         }
         }, false);
-      
 }
 
     window.addEventListener("resize", resizeThrottler, false);
@@ -114,7 +113,7 @@ function imgClicked(imgId, elCanvas) {
 gCtx.clearRect(0, 0, canvas.width, canvas.height);
     //   drawCanvas()
     redrawCanvas();
-      console.log('window size', window.innerWidth)
+    //   console.log('window size', window.innerWidth)
     }
   
 
@@ -327,7 +326,24 @@ function drawBgText(line, align, l, t, w, h){
     }
 }
 
+function detectMob() { 
+    if( navigator.userAgent.match(/Android/i)
+    || navigator.userAgent.match(/webOS/i)
+    || navigator.userAgent.match(/iPhone/i)
+    || navigator.userAgent.match(/iPad/i)
+    || navigator.userAgent.match(/iPod/i)
+    || navigator.userAgent.match(/BlackBerry/i)
+    || navigator.userAgent.match(/Windows Phone/i)
+    ){
+       return true;
+     }
+    else {
+       return false;
+     }
+   }
+
 function handleClick(ev){
+// if (detectMob()) return;
     for (var i = 0; i < gMeme.txts.length; i++){
         var currMeme = gMeme.txts[i];
         if (ev.offsetX > currMeme.pos.l &&

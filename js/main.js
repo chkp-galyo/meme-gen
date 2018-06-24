@@ -5,6 +5,7 @@ function init() {
     renderSearchBox()
     createMapSearchKeys();
     rendersearchRibon();
+    
 }
 
 function rendersearchRibon() {
