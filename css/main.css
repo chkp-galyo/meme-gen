@@ -32,15 +32,22 @@ body {
     margin: 0;
     font-size: 16px;
     /* background: rgba(0, 0, 0, 0.664); */
-    background: rgba(235, 247, 244, 0.938);
+   background-color: #ec721c94;
 }
 
-header a {
+html {
+    scroll-behavior: smooth;
+}
+
+.menu-item a {
     font-family: lato-regular;
     text-decoration: none;
     color: #fff;    
     /* height: 100%; */
     cursor: pointer;
+}
+.menu-item a:hover {
+    color: #2eb398;
 }
 
 a {
@@ -200,12 +207,16 @@ nav {
     margin: auto 20px;
 }
 
+.menu-item:hover {
+color: rgba(0, 128, 128, 0.8);
+}
+
 li a.active {
     color: #2eb398; 
 }
 
 .nav-arrow {
-    font-size: 50px;
+    font-size: 45px;
     z-index: 1;
 }
 
@@ -236,7 +247,12 @@ li a.active {
     margin: 10px;
 }
 
-
+.upload-file {
+    width: 100px;
+    align-self: center;
+    line-height: 43px;
+    margin-right: 5px;
+}
 
 .memeMapSearch {
     max-height: 250px;
@@ -245,6 +261,7 @@ li a.active {
 
 .memeMapSearch a.key {
     color: #323232;
+    text-decoration: none;
 
 }
 
@@ -326,7 +343,8 @@ main {
 
 section.about-us {
     background-color: rgba(0, 128, 128, 0.8);
-    padding: 0 20px;
+    padding: 60px 20px 0 20px;
+    
 }
 
 .about-container {
@@ -367,6 +385,11 @@ section.about-us {
 }
 
 /* contact  */
+
+#contact-us {
+    padding-top: 60px;
+    background-color: #323232;
+}
 
 .contact {
     width: 100%;
@@ -494,7 +517,7 @@ li.hex:hover {
     margin-top: 10px;
 }
 .canvas-and-editor-container {
-    width: 100%;
+    /* width: 80%; */
     padding: 20px;
     min-height: calc(100vh - 160px);
     
@@ -576,6 +599,13 @@ footer {
     .canvas-container {
         width: 100%;
     }
+    .canvas-and-editor-container {
+        flex-direction: column;
+    }
+
+    .editor-container {
+        justify-content: center;
+    }
     
     
 
@@ -622,6 +652,12 @@ footer {
 
     .text-contact p {
         display: none;
+    }
+}
+
+@media only screen and (max-width: 420px) {
+    .canvas-and-editor-container {
+        width: 100vw;
     }
 }
 

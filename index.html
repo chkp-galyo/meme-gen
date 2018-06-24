@@ -30,7 +30,7 @@
                 </li>
                 <li class="menu-dot">.</li>
                 <li class="menu-item">
-                    <a href="#">about</a>
+                    <a href="#about-us">about</a>
                 </li>
                 <li class="">
                     <div class="menu-item nav-arrow">🠋</div>
@@ -41,16 +41,15 @@
                 </li>
                 <li class="menu-dot">.</li>
                 <li class="menu-item">
-                    <a href="#">get in touch</a>
+                    <a href="#contact-us">get in touch</a>
                 </li>
             </ul>
         </nav>
     </header>
 
     <div class="main-page-container">
-        <div class="search-box filter flex justify-center">
-                <input class="btn-width btn-height" type="file" name="image" accept=".jpg, .jpeg, .png"
-                 onchange="onFileInputChange(event)" />
+        <div class="filter flex justify-center">
+            <input class="upload-file" type="file" name="image" accept=".jpg, .jpeg, .png" onchange="onFileInputChange(event)">
 
             <input class="searchBox" list="filter" oninput="onSearch()">
             <datalist id="filter">
@@ -133,8 +132,8 @@
 
             </div>
         </section>
-        <section id="contact-us" class="contact-us">
-            <div class="contact">
+        <section  class="contact-us">
+            <div id="contact-us" class="contact">
                 <div class="contact-info">
 
                     <div class="flex column form-contact">
