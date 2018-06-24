@@ -296,6 +296,15 @@ main {
 .fb-share {
     padding-left: 0;
 }
+
+.pointer-cursor {
+    cursor: pointer;
+}
+
+.move-cursor {
+    cursor: move;
+}
+
 .social-share-btn {
     background: #4267b2;
     border: 1px solid #4267b2;

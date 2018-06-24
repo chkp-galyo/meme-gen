@@ -30,6 +30,11 @@ function rendersearchRibon() {
 <p>Some sample text about the article this hexagon leads to</p> */}
 
 
+function clearFilter() {
+    document.querySelector('.searchBox').value = '';
+    renderImgs(false)
+}
+
 function renderImgs(isFilter) {
     var allImgs = galeryImgsToDispaly(isFilter);
     var strHtml = '<ul id="hexGrid">';
@@ -88,11 +93,40 @@ function onImgClick(imgId) {
     window.scrollTo(0, 0);
 }
 
+function addPointer(e){
+    console.log('on canvas')
+    for (var i = 0; i < gMeme.txts.length; i++){
+        var currMeme = gMeme.txts[i];
+        if (e.offsetX > currMeme.pos.l &&
+            e.offsetX < currMeme.pos.l + currMeme.pos.w &&
+            e.offsetY > currMeme.pos.t &&
+            e.offsetY < currMeme.pos.t + currMeme.pos.h) {
+                // addPointer();
+    console.log('on text')
+                
+                return true;
+            }
+    }
+}
+
+function addMoveCursor(){
+    document.querySelector('.canvas').classList.remove('pointer-cursor');
+    document.querySelector('.canvas').classList.add('move-cursor');
+}
+
+function removeCursor(){
+    document.querySelector('.canvas').classList.remove('move-cursor');
+}
+
+
+
 function backToGallery() {
     var elMainPage = document.querySelector('.main-page-container');
     elMainPage.classList.remove('hidden');
     document.querySelector('.first-line').value = '';
-    // document.querySelector('.second-line').value = '';
+    document.querySelector('.fb-share').innerHTML = '';
+    document.getElementById('imgData').value = '';
+    
     
     document.querySelector('.searchBox').classList.remove('hidden');
 
@@ -132,14 +166,16 @@ function addLine(elBtn) {
         meme.isSelected = false;
     })
 
+    gCurrLine = gMeme.txts.length
     var newLine = {
         memeText: '',
         size: 40,
         align: 'left',
         alignY: 'top',
-        color: '#000000',
+        color: '#ffffff',
+        font: 'impact-regular',
         upperCase: false,
-        stroke: false,
+        shadow: false,
         pos: {
             l: 50,
             t: 50,
@@ -175,8 +211,10 @@ function onFileInputChange(ev) {
 }
 
 function downloadCanvas(elLink) {
+    gCurrLine = null;
+    redrawCanvas();
     elLink.href = gElCanvas.toDataURL();
-    elLink.download = 'my-meme.jpg';
+    elLink.download = 'my-meme.jpg';   
 }
 
 function onSearch(){
