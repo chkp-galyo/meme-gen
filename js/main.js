@@ -39,6 +39,12 @@ function rendersearchRibon() {
         </div>
       </li>
 */
+
+function clearFilter() {
+    document.querySelector('.searchBox').value = '';
+    renderImgs(false)
+}
+
 function renderImgs(isFilter) {
     var allImgs = galeryImgsToDispaly(isFilter);
     var strHtml = '<ul id="hexGrid">';
@@ -103,6 +109,9 @@ function backToGallery() {
     elMainPage.classList.remove('hidden');
     document.querySelector('.first-line').value = '';
     document.querySelector('.second-line').value = '';
+    document.querySelector('.fb-share').innerHTML = '';
+    document.getElementById('imgData').value = '';
+    
     
     document.querySelector('.searchBox').classList.remove('hidden');
 
@@ -142,14 +151,16 @@ function addLine(elBtn) {
         meme.isSelected = false;
     })
 
+    gCurrLine = gMeme.txts.length
     var newLine = {
         memeText: '',
         size: 40,
         align: 'left',
         alignY: 'top',
         color: '#000000',
+        font: 'impact-regular',
         upperCase: false,
-        stroke: false,
+        shadow: false,
         pos: {
             l: 50,
             t: 50,
@@ -185,8 +196,10 @@ function onFileInputChange(ev) {
 }
 
 function downloadCanvas(elLink) {
+    gCurrLine = null;
+    redrawCanvas();
     elLink.href = gElCanvas.toDataURL();
-    elLink.download = 'my-meme.jpg';
+    elLink.download = 'my-meme.jpg';   
 }
 
 function onSearch(){

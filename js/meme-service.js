@@ -79,15 +79,18 @@ function imgClicked(imgId, elCanvas) {
 
 function myMove(e) {
     if (dragOK) {
-        var txts = gMeme.txts;
-        txts[gCurrLine].align = e.pageX - canvas.offsetLeft;
-        txts[gCurrLine].alignY = e.pageY - canvas.offsetTop;
-        console.log('left, top > ', txts[gCurrLine].left, txts[gCurrLine].left)
+        var currMeme = gMeme.txts[gCurrLine];
+        currMeme.align = e.clientX - canvas.offsetLeft - currMeme.pos.w / 2;
+        currMeme.alignY = e.clientY - canvas.offsetTop + currMeme.pos.h / 2;
+        // console.log('left, top > ', txts[gCurrLine].left, txts[gCurrLine].left)
+        // console.log('e.pageX, canvas.offsetLeft, e.pageY, canvas.offsetTop > ', e.pageX, canvas.offsetLeft, e.pageY, canvas.offsetTop)
+        
         redrawCanvas()
     }
 }
 
 function myDown(ev) {
+    var isLineClicked = false;        
     var txts = gMeme.txts;
     for (var i = 0; i < txts.length; i++) {
         var currMeme = txts[i];
@@ -97,12 +100,17 @@ function myDown(ev) {
             ev.offsetX < currMeme.pos.l + currMeme.pos.w &&
             ev.offsetY > currMeme.pos.t &&
             ev.offsetY < currMeme.pos.t + currMeme.pos.h) {
-                console.log('myDown says > yes you clicked the line', currMeme.memeText)
+                // console.log('myDown says > yes you clicked the line', currMeme.memeText)
+                isLineClicked = true;
             gCurrLine = i;
             dragOK = true;
             canvas.onmousemove = myMove;
             break;
         }
+    }
+    if (!isLineClicked) {
+        gCurrLine = null;
+        redrawCanvas();
     }
 }
 
@@ -110,7 +118,7 @@ function myUp() {
     console.log('myup');
     dragOK = false;
     canvas.onmousemove = null;
-    gMeme.txts[gCurrLine].isSelected = true;
+    if (gCurrLine) gMeme.txts[gCurrLine].isSelected = true;
 }
 
 
@@ -124,11 +132,12 @@ function createMeme() {
             align: 'left',
             alignY: 'top',
             color: '#000000',
+            font: 'impact-regular',
             upperCase: false,
-            stroke: false,
+            shadow: false,
             pos: {
-                l: null,
-                t: null,
+                l: 50,
+                t: 50,
                 w: null,
                 h: null
             },
@@ -162,12 +171,12 @@ function memeToDispaly() {
 
         gCtx.fillStyle = currMeme.color;
 
-        gCtx.font = currMeme.size + 'px ' + gSelectedFont;
+        gCtx.font = currMeme.size + 'px ' + currMeme.font;
 
         gCtx.textAlign = currMeme.align;
         gCtx.textAlignY = currMeme.alignY;
 
-        console.log('currmeme align is >',currMeme.align)
+        // console.log('currmeme align is >',currMeme.align)
 
         switch (currMeme.align) {
             case 'left':
@@ -183,8 +192,8 @@ function memeToDispaly() {
                 top = top;
                 break;
             default:
-                left = currMeme.align;
-                top = currMeme.alignY;
+            left = currMeme.align;
+            top = top;
         }
 
         switch (currMeme.alignY) {
@@ -201,16 +210,16 @@ function memeToDispaly() {
                 top = getCanvasBottom();
                 break;
             default:
-                left = currMeme.align;
+                left = left;
                 top = currMeme.alignY;
         }
 
-        currMeme.pos.l = left;
-        currMeme.pos.t = top;
+        // currMeme.pos.l = left;
+        // currMeme.pos.t = top;
 
-        console.log('pos.l , pos.t >', currMeme.pos.l, currMeme.pos.t)
+        // console.log('pos.l , pos.t >', currMeme.pos.l, currMeme.pos.t)
 
-        console.log(left, top)
+        // console.log('left top', left, top)
 
         // drawOnCanvas(left, top) 
 
@@ -220,19 +229,24 @@ function memeToDispaly() {
             currMeme.memeText = upperCaseText;
         }
         
-        if (currMeme.stroke) {
-            gCtx.strokeText(currMeme.memeText, left + 1, top + 1);
-        }
+        if (currMeme.shadow) {
+            gCtx.shadowOffsetX = 5;
+            gCtx.shadowOffsetY = 5;
+            gCtx.shadowColor = "rgba(0,0,0,0.5)";
+            gCtx.shadowBlur = 8;
 
+        }
+        
+        gCtx.strokeText(currMeme.memeText, left, top);
         gCtx.fillText(currMeme.memeText, left, top)
 
+        
         var txtWidth = gCtx.measureText(currMeme.memeText).width;
         var txtHeight = currMeme.size;
         var align = currMeme.align;
-
         drawBgText(i, align, left, top - txtHeight, txtWidth, txtHeight);
-
-
+        
+        
     }
 }
 
@@ -285,14 +299,16 @@ function handleClick(ev){
             ev.offsetY < currMeme.pos.t + currMeme.pos.h
         ) {
             // console.log('hamdleClick says you clicked the line > ', currMeme.memeText)
+            // console.log('i clicked > ', isLineClicked)
             gCurrLine = i;
             currMeme.isSelected = true;
             redrawCanvas();
             renderInputVal(currMeme.memeText);
             setTimeout(resetColorInput, 0);
+            return;
         } else {
             currMeme.isSelected = false;
-            gMeme.txts[gCurrLine].isSelected = true;
+            if(gCurrLine) gMeme.txts[gCurrLine].isSelected = true;
         }
     }
 }
@@ -340,10 +356,17 @@ function changeTextColor(ev) {
     redrawCanvas()
 }
 
-function toggleStroke() {
+function changeFont(fontFamily) {
+    var line = checkForSelectedLine()
+    gMeme.txts[line].font = fontFamily;
+    // gSelectedFont = fontFamily;
+    redrawCanvas()
+}
+
+function toggleShadow() {
     var line = checkForSelectedLine()
     setTimeout(function() {
-        (!gMeme.txts[line].stroke) ? gMeme.txts[line].stroke = true : gMeme.txts[line].stroke = false;
+        (!gMeme.txts[line].shadow) ? gMeme.txts[line].shadow = true : gMeme.txts[line].shadow = false;
     }, 0);
     redrawCanvas();
 }
@@ -360,11 +383,7 @@ function alignTextY(textAlignY) {
     redrawCanvas()
 }
 
-function changeFont(fontFamily) {
-    gSelectedFont = fontFamily;
-    console.log(gSelectedFont);
-    redrawCanvas()
-}
+
 
 function redrawCanvas() {
     drawImage();
@@ -522,6 +541,8 @@ function saveMapKeys() {
 
 function uploadImg(elForm, ev) {
     ev.preventDefault();
+    gCurrLine = null;
+    redrawCanvas();
     document.querySelector('.fb-share').innerHTML = '';
     document.getElementById('imgData').value = canvas.toDataURL("image/jpeg");
    
