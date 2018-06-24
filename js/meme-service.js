@@ -311,7 +311,6 @@ function drawBgText(line, align, l, t, w, h){
 }
 
 function handleClick(ev){
-    if (window.innerWidth < 400) return;
     for (var i = 0; i < gMeme.txts.length; i++){
         var currMeme = gMeme.txts[i];
         if (ev.offsetX > currMeme.pos.l &&
@@ -577,8 +576,6 @@ function uploadImg(elForm, ev) {
    
     // A function to be called if request succeeds
     function onSuccess(uploadedImgUrl) {
-        console.log('uploadedImgUrl', uploadedImgUrl);
-
         uploadedImgUrl = encodeURIComponent(uploadedImgUrl)
         document.querySelector('.fb-share').innerHTML = `
         <a class="w-inline-block social-share-btn fb" href="https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
