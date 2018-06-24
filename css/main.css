@@ -123,13 +123,13 @@ button {
     flex-direction: row;
 }
 
-.btn-width {
+/* .btn-width {
     width: 100%;
 }
 
 .btn-height {
     height: 50px;
-}
+} */
 /* *************************************************************** */
 
 /* HEADER helpers */
@@ -139,7 +139,7 @@ header {
     background-color: #323232;
     position: fixed;
     width: 100%;
-    z-index: 1;
+    z-index: 1000;
 
 }
 
@@ -191,7 +191,9 @@ nav {
 
 
 .menu-dot {
-    color:  rgba(0, 128, 128, 0.8);
+    color:  rgb(57, 210, 210);
+    align-self: center;
+    font-weight: 500;
 }
 
 .menu-item {
@@ -251,17 +253,19 @@ main {
 }
 
 .btn-back {
-    margin-top: 20px;
+    /* margin-top: 20px; */
+    width: 100%;
+    height: 50px;
 }
 
-main div button.btn-back, main ul li>button, .font-family{
+/* main div button.btn-back, main ul li>button, .font-family{
     background-color:  rgba(0, 128, 128, 0.8);
     color: #d7fcf5;
     
-}
+} */
 .selected-font {
-    background-color: bisque;
-    color: #323232;
+    background-color: #454545;
+    color: antiquewhite;
 }
 
 
@@ -289,7 +293,9 @@ main div button.btn-back, main ul li>button, .font-family{
 .text-profile {
     margin: 20px;
 }
-
+.fb-share {
+    padding-left: 0;
+}
 .social-share-btn {
     background: #4267b2;
     border: 1px solid #4267b2;
@@ -303,6 +309,7 @@ main div button.btn-back, main ul li>button, .font-family{
     border-radius: 3px;
     text-decoration: none;
     display: inline-block;
+    /* width: 100%; */
   }
 
 
@@ -410,12 +417,20 @@ section.about-us {
 /* galery */
 
 .black-n-white {
-    /* filter: grayscale(100%); */
-    filter: sepia(90%);
+    filter: grayscale(90%);
+    /* filter: opacity(0.2); */
 }
 
 .galery img:hover {
+  
     filter: none;
+    /* transform: scale(1.5);   */
+}
+
+
+li.hex:hover {
+    transform: scale(1.1);
+    z-index: 110;
 }
 
 .galery-imgs-container .img {
@@ -431,10 +446,12 @@ section.about-us {
 .meme-main-container {
     position: relative;
     top: 60px;
+    background-color: #323232;
 }
 
-#cnavas {
+.canvas {
     border: 1px solid black;
+    width: 100%;
 }
 
 .canvas-container {
@@ -442,41 +459,90 @@ section.about-us {
 }
 
 /* editor */
+
+.meme-editor-container {
+    width: 300px;
+}
 .meme-editor-container li{
     margin-bottom: 10px;   
     background-color: #323232; 
 }
 
+.color-n-font * {
+    width: 100%;
+}
+
+.color-picker {
+    /* align-self: center; */
+    height: 45px;
+    border-radius: 4px;
+    background-color: #454545;
+}
+.font-family {
+    width: 100%;
+    background-color: #454545;
+    color: #e0e0e0;
+    margin-top: 10px;
+}
 .canvas-and-editor-container {
     width: 100%;
     padding: 20px;
+    min-height: calc(100vh - 160px);
+    
 }
 .first-line, .second-line{
-    width: 270px;
+    width: 100%;
     background-color: #454545;
     color: #e0e0e0;
     border: none;
+    /* margin-l eft: 5px; */
+    padding-left: 5px;
+    line-height: 40px;
 }
 
 .text-editors {
-    width: 300px;
+    width: 100%;
+    align-items: center;
+    margin-top: 10px; 
     /* max-height: 100px; */
 }
 
+.add-remove-line {
+    margin-top: 10px;
+}
+
 li .download {
-    background-color:  rgba(0, 128, 128, 0.8);
-    color: #d7fcf5;
+
+    /* color: #d7fcf5; */
     align-items: center;
     position: relative;
+    width: 100%;
+}
+
+button.download {
+    background-color: rgba(0, 128, 128, 0.8);
+}
+
+
+
+.meme-editor-line1 .btn {
+    min-width: 45px;
+    min-height: 45px;
+    background-color: #454545;
+    color: #e0e0e0;
 
 }
 
-.meme-editor-line1, .meme-editor-line2 {
-    width: 350px;
-    height: 70px;  
-    border: 1px solid black;
-    padding: 10px;
+.meme-editor-line1 {
+    width: 100%;
+    height: 150px;  
+    /* border: 1px solid black; */
+    /* padding: 5px; */
 }
+
+/* .text-functions * {
+    width: 30%;
+} */
 
 /* footer */
 
@@ -486,6 +552,25 @@ footer {
     height: 50px;
     position: relative;
     top: 60px;
+}
+
+.btn-publish {
+    width: 100%;
+    background-color: #4267b2;
+}
+
+.btn-share a {
+    margin-top: 10px;
+}
+
+@media only screen and (max-width: 780px) {
+    .canvas-container {
+        width: 100%;
+    }
+    
+    
+
+
 }
 
 @media only screen and (max-width: 700px) {
@@ -530,6 +615,8 @@ footer {
         display: none;
     }
 }
+
+
 
 
 /* .meme-editor-container .btn {

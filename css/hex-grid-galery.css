@@ -13,6 +13,7 @@
   position: relative;
   visibility:hidden;
   outline:1px solid transparent; /* fix for jagged edges in FF on hover transition */
+  transition: all 0.5s;
 }
 .hex::after{
   content:'';
@@ -52,7 +53,10 @@
   height: 100%;
   margin: 0 auto;
   transform: rotate3d(0,0,0,0deg);
+  transition: all 0.5s;
 }
+
+
 
 .hex h1, .hex p {
   width: 100%;

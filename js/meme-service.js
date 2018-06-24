@@ -79,10 +79,10 @@ function imgClicked(imgId, elCanvas) {
 
 function myMove(e) {
     if (dragOK) {
-        var txts = gMeme.txts;
-        txts[gCurrLine].align = e.pageX - canvas.offsetLeft;
-        txts[gCurrLine].alignY = e.pageY - canvas.offsetTop;
-        console.log('left, top > ', txts[gCurrLine].left, txts[gCurrLine].left)
+        var currMeme = gMeme.txts[gCurrLine];
+        currMeme.align = e.pageX - canvas.offsetLeft - currMeme.pos.w / 2;
+        currMeme.alignY = e.pageY - canvas.offsetTop + currMeme.pos.h / 2;
+        // console.log('left, top > ', txts[gCurrLine].left, txts[gCurrLine].left)
         redrawCanvas()
     }
 }
