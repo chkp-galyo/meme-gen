@@ -25,20 +25,10 @@ function rendersearchRibon() {
     document.querySelector('#memeMapSearch').innerHTML = strHTML;
 
 }
+{/*to add to the render function in case we want
+     <h1>This is a title</h1>
+<p>Some sample text about the article this hexagon leads to</p> */}
 
-
-/*
-<ul id="hexGrid">
-      <li class="hex">
-        <div class="hexIn">
-          <a class="hexLink" href="#">
-            <img src="https://farm9.staticflickr.com/8461/8048823381_0fbc2d8efb.jpg" alt="" />
-            <h1>This is a title</h1>
-            <p>Some sample text about the article this hexagon leads to</p>
-          </a>
-        </div>
-      </li>
-*/
 
 function clearFilter() {
     document.querySelector('.searchBox').value = '';
@@ -59,9 +49,8 @@ function renderImgs(isFilter) {
         strHtml += `<li class="hex">
         <div class="hexIn">
           <a class="hexLink" href="#" onclick="onImgClick(${currImg.id})">
-            <img src="${currImg.url}" alt="" />
-            <h1>This is a title</h1>
-            <p>Some sample text about the article this hexagon leads to</p>
+            <img class="black-n-white" src="${currImg.url}" alt="" />
+     
           </a>
         </div>
       </li>`
@@ -108,7 +97,6 @@ function backToGallery() {
     var elMainPage = document.querySelector('.main-page-container');
     elMainPage.classList.remove('hidden');
     document.querySelector('.first-line').value = '';
-    document.querySelector('.second-line').value = '';
     document.querySelector('.fb-share').innerHTML = '';
     document.getElementById('imgData').value = '';
     
@@ -127,8 +115,8 @@ function backToGallery() {
     var elBtnBack = document.querySelector('.btn-back');
     elBtnBack.classList.add('hidden');
 
-    var elSecondLine = document.querySelector('.meme-editor-line2');
-    elSecondLine.classList.remove('flex');
+    // var elSecondLine = document.querySelector('.meme-editor-line2');
+    // elSecondLine.classList.remove('flex');
 
     var elAddLineBtn = document.querySelector('.btn-add-line')
     elAddLineBtn.classList.remove('hidden');
@@ -209,13 +197,12 @@ function onSearch(){
 
 
 function renderSearchBox(){
-    var strHtml = `<input class="searchBox" list="filter" oninput="onSearch()">
-    <datalist id="filter">`;
+    var strHtml = '';
     for (var i = 0; i < gSearchWords.length; i++){
         strHtml += `<option value="${gSearchWords[i]}">`;
     }
-    strHtml += `</datalist>`;
-    document.querySelector('.filter').innerHTML = strHtml;
+  
+    document.querySelector('#filter').innerHTML = strHtml;
 }
 
 function renderInputVal(txt){

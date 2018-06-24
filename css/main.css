@@ -31,7 +31,8 @@
 body {
     margin: 0;
     font-size: 16px;
-    background: rgba(0, 0, 0, 0.664);
+    /* background: rgba(0, 0, 0, 0.664); */
+    background: rgba(235, 247, 244, 0.938);
 }
 
 header a {
@@ -136,7 +137,13 @@ button {
 header {
     height: 60px;
     background-color: #323232;
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+
 }
+
+
 
 nav {
     display: flex;
@@ -145,12 +152,43 @@ nav {
     align-items: center;
 }
 
+.hamburger-menu {
+    display: none;
+
+
+}
+
+.bar1, .bar2, .bar3 {
+    width: 35px;
+    height: 5px;
+    background-color: white;
+    margin: 6px 0;
+    transition: 0.4s;
+}
+
+.change .bar1 {
+    transform: rotate(-45deg) translate(-9px, 6px);
+}
+
+.change .bar2 {opacity: 0;}
+
+.change .bar3 {
+    transform: rotate(45deg) translate(-8px, -8px);
+}
+
 .menu {
     font-size: 12px;
     font-weight: 500;
     text-transform: uppercase;
     color: #ffffff;
 }
+
+.show-menu {
+    display: flex;
+    /* right: 0; */
+    transform: translate(0);
+}
+
 
 .menu-dot {
     color:  rgba(0, 128, 128, 0.8);
@@ -183,13 +221,28 @@ li a.active {
 /* ********************************************************************* */
 /* MAIN */
 
+.main-page-container {
+    position: relative;
+    top: 60px;
+}
+
+.searchBox {
+    margin: 10px;
+}
+.btn-filter {
+    padding: 10px;
+    margin: 10px;
+}
+
+
+
 .memeMapSearch {
     max-height: 250px;
     /* background-color: yellow; */
 }
 
 .memeMapSearch a.key {
-    color: white;
+    color: #323232;
 
 }
 
@@ -252,6 +305,51 @@ main div button.btn-back, main ul li>button, .font-family{
     display: inline-block;
   }
 
+
+  /*--------About--------*/
+
+section.about-us {
+    background-color: rgba(0, 128, 128, 0.8);
+    padding: 0 20px;
+}
+
+.about-container {
+    border-left: 1px solid #219d84;
+    border-right: 1px solid #219d84;
+}
+
+#profile1 .profile-pic {
+    margin-right: 20px;
+}
+
+
+.about-txt {
+    padding: 10px;
+}
+
+.about-us h2 {
+    margin: 0;
+    color: #d7fcf5; 
+}
+.about-us h3 {
+    margin-top: 5px;
+    color: #2081B6;
+}
+.about-us p {
+    color: #d7fcf5;
+}
+
+.profile {
+    margin: 10px 0;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+#profile1 ul {
+    justify-content: flex-end;
+}
+
 /* contact  */
 
 .contact {
@@ -259,11 +357,12 @@ main div button.btn-back, main ul li>button, .font-family{
     height: 560px;
     background-color: #323232;
     color: #e0e0e0;
+    
 }
 
 .contact-info {
     display: flex;
-    margin: 100px;
+    padding: 20px;
 }
 
 .form-contact {
@@ -310,7 +409,14 @@ main div button.btn-back, main ul li>button, .font-family{
 
 /* galery */
 
+.black-n-white {
+    /* filter: grayscale(100%); */
+    filter: sepia(90%);
+}
 
+.galery img:hover {
+    filter: none;
+}
 
 .galery-imgs-container .img {
     width: 180px;
@@ -322,6 +428,11 @@ main div button.btn-back, main ul li>button, .font-family{
 }
 
 /* canvas */
+.meme-main-container {
+    position: relative;
+    top: 60px;
+}
+
 #cnavas {
     border: 1px solid black;
 }
@@ -373,6 +484,51 @@ footer {
     background-color: #000;
     color: #454545;
     height: 50px;
+    position: relative;
+    top: 60px;
+}
+
+@media only screen and (max-width: 700px) {
+    #memeMapSearch {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 520px) {
+    .menu {
+        display: none;
+        width: 100%;
+        background-color: #323232;
+        top: 60px;
+        opacity: 0.9;
+        position: relative;
+        font-size: 18px;
+        text-align: center;
+    }
+    .nav-arrow, .menu-dot {
+        display: none;
+    }
+    .open {
+        display: block
+    }
+
+    .hamburger-menu {
+        
+        right: 0;
+    position: absolute;
+        top: 10px;
+        display: inline-block;
+        cursor: pointer;
+        transform: scale(0.5);
+        
+    }
+    .menu-item{
+        padding: 10px
+    }
+
+    .text-contact p {
+        display: none;
+    }
 }
 
 
