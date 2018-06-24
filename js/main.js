@@ -93,6 +93,33 @@ function onImgClick(imgId) {
     window.scrollTo(0, 0);
 }
 
+function addPointer(e){
+    console.log('on canvas')
+    for (var i = 0; i < gMeme.txts.length; i++){
+        var currMeme = gMeme.txts[i];
+        if (e.offsetX > currMeme.pos.l &&
+            e.offsetX < currMeme.pos.l + currMeme.pos.w &&
+            e.offsetY > currMeme.pos.t &&
+            e.offsetY < currMeme.pos.t + currMeme.pos.h) {
+                // addPointer();
+    console.log('on text')
+                
+                return true;
+            }
+    }
+}
+
+function addMoveCursor(){
+    document.querySelector('.canvas').classList.remove('pointer-cursor');
+    document.querySelector('.canvas').classList.add('move-cursor');
+}
+
+function removeCursor(){
+    document.querySelector('.canvas').classList.remove('move-cursor');
+}
+
+
+
 function backToGallery() {
     var elMainPage = document.querySelector('.main-page-container');
     elMainPage.classList.remove('hidden');
@@ -145,7 +172,7 @@ function addLine(elBtn) {
         size: 40,
         align: 'left',
         alignY: 'top',
-        color: '#000000',
+        color: '#ffffff',
         font: 'impact-regular',
         upperCase: false,
         shadow: false,

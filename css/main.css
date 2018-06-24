@@ -290,6 +290,14 @@ main div button.btn-back, main ul li>button, .font-family{
     margin: 20px;
 }
 
+.pointer-cursor {
+    cursor: pointer;
+}
+
+.move-cursor {
+    cursor: move;
+}
+
 .social-share-btn {
     background: #4267b2;
     border: 1px solid #4267b2;

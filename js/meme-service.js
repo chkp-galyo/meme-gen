@@ -58,6 +58,7 @@ function galeryImgsToDispaly(isFilter) {
 function clearFilter() {
     renderImgs(false)
 }
+var gDrag = false;
 
 function imgClicked(imgId, elCanvas) {
     gElCanvas = elCanvas;
@@ -67,18 +68,57 @@ function imgClicked(imgId, elCanvas) {
     drawImage();
     canvas.onmousedown = myDown;
     canvas.onmouseup = myUp;
+
+    canvas.addEventListener('touchmove', function() {
+        //Assume only one touch/only process one touch even if there's more
+        var touch = event.targetTouches[0];
+        console.dir(event)
+        for (var i = 0; i < gMeme.txts.length; i++){
+            var currMeme = gMeme.txts[i];
+            // Is touch close enough to our object?
+            // if(detectHit(currMeme.align, currMeme.alignY, touch.pageX, touch.pageY, currMeme.pos.w, currMeme.pos.h)) {
+                if (gDrag && gCurrLine === i){
+                // Assign new coordinates to our object
+                console.log(canvas.width, window.innerWidth)
+                currMeme.align = touch.pageX;
+                currMeme.alignY = touch.pageY;
+                
+                // Redraw the canvas
+               redrawCanvas();
+            }
+            event.preventDefault();
+        }
+        }, false);
+      
 }
+
+
+function detectHit(x1,y1,x2,y2,w,h) {
+    //Very simple detection here
+    // console.log('x1',x1,'y1',y1,'x2',x2,'y2',y2,'w',w,'h',h)
+    if(x2-x1>w) return false;
+    if(y2-y1>h) return false;
+    return true;
+
+    // if (x2 > x1 &&
+    //     x2 < x1 + w &&
+    //     y2 > y1 &&
+    //     y2 < y1 + h){
+    //         return true
+    //     } else {
+    //         return false;
+    //     }
+  }
+
+
+  
 
 
 function myMove(e) {
     if (dragOK) {
         var currMeme = gMeme.txts[gCurrLine];
-        // console.log('align, clientx, pos.w, offsetleft', currMeme.align, e.clientX, currMeme.pos.w, canvas.offsetLeft)
         currMeme.align = e.clientX - canvas.offsetLeft - currMeme.pos.w / 2;
         currMeme.alignY = e.clientY - canvas.offsetTop - currMeme.pos.h;
-        // console.log('left, top > ', txts[gCurrLine].left, txts[gCurrLine].left)
-        // console.log('e.pageX, canvas.offsetLeft, e.pageY, canvas.offsetTop > ', e.pageX, canvas.offsetLeft, e.pageY, canvas.offsetTop)
-        // checkBorder()
         redrawCanvas()
     }
 }
@@ -125,7 +165,7 @@ function createMeme() {
             size: 40,
             align: 'left',
             alignY: 'top',
-            color: '#000000',
+            color: '#ffffff',
             font: 'impact-regular',
             upperCase: false,
             shadow: false,
@@ -278,6 +318,7 @@ function handleClick(ev){
             ev.offsetY > currMeme.pos.t &&
             ev.offsetY < currMeme.pos.t + currMeme.pos.h
         ) {
+            gDrag = true;
             gCurrLine = i;
             currMeme.isSelected = true;
             redrawCanvas();
@@ -291,18 +332,19 @@ function handleClick(ev){
     }
 }
 
-// function onTextHover(ev){
-//     for (var i = 0; i < gMeme.txts.length; i++){
-//         var currMeme = gMeme.txts[i];
-//         if (ev.offsetX > currMeme.pos.l &&
-//             ev.offsetX < currMeme.pos.l + currMeme.pos.w &&
-//             ev.offsetY > currMeme.pos.t &&
-//             ev.offsetY < currMeme.pos.t + currMeme.pos.h
-//         ) {
-//           document.querySelector('.canvas').style.cursor = 'pointer';
-//     }
-// }
-// }
+function onTextHover(ev){
+    for (var i = 0; i < gMeme.txts.length; i++){
+        var currMeme = gMeme.txts[i];
+        if (ev.offsetX > currMeme.pos.l &&
+            ev.offsetX < currMeme.pos.l + currMeme.pos.w &&
+            ev.offsetY > currMeme.pos.t &&
+            ev.offsetY < currMeme.pos.t + currMeme.pos.h
+        ) {
+        //   document.querySelector('.canvas').style.cursor = 'pointer';
+          console.log('on text')
+    }
+}
+}
 
 
 function checkBorder(){
