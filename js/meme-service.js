@@ -76,12 +76,12 @@ function imgClicked(imgId, elCanvas) {
         for (var i = 0; i < gMeme.txts.length; i++){
             var currMeme = gMeme.txts[i];
             // Is touch close enough to our object?
-            // if(detectHit(currMeme.align, currMeme.alignY, touch.pageX, touch.pageY, currMeme.pos.w, currMeme.pos.h)) {
-                if (gDrag && gCurrLine === i){
+            // if(detectHit(currMeme.align, currMeme.alignY, touch.pageX, touch.pageY, currMeme.pos.w, currMeme.pos.h) && gCurrLine === i) {
+                if (gCurrLine === i){
                 // Assign new coordinates to our object
-                console.log(canvas.width, window.innerWidth)
+                // console.log(canvas.width, window.innerWidth)
                 currMeme.align = touch.pageX;
-                currMeme.alignY = touch.pageY;
+                currMeme.alignY = touch.pageY - 70;
                 
                 // Redraw the canvas
                redrawCanvas();
@@ -96,9 +96,9 @@ function imgClicked(imgId, elCanvas) {
 function detectHit(x1,y1,x2,y2,w,h) {
     //Very simple detection here
     // console.log('x1',x1,'y1',y1,'x2',x2,'y2',y2,'w',w,'h',h)
-    if(x2-x1>w) return false;
-    if(y2-y1>h) return false;
-    return true;
+    // if(x2-x1>w) return false;
+    // if(y2-y1>h) return false;
+    // return true;
 
     // if (x2 > x1 &&
     //     x2 < x1 + w &&
@@ -117,8 +117,17 @@ function detectHit(x1,y1,x2,y2,w,h) {
 function myMove(e) {
     if (dragOK) {
         var currMeme = gMeme.txts[gCurrLine];
-        currMeme.align = e.clientX - canvas.offsetLeft - currMeme.pos.w / 2;
-        currMeme.alignY = e.clientY - canvas.offsetTop - currMeme.pos.h;
+        if (window.innerWidth > 780) {
+            currMeme.align = e.screenX - canvas.offsetLeft - currMeme.pos.w / 2;
+            currMeme.alignY = e.screenY - canvas.offsetTop - currMeme.pos.h;
+        } else if (window.innerWidth < 780){
+            currMeme.align = e.screenX - canvas.offsetLeft - currMeme.pos.w / 2;
+            currMeme.alignY = e.screenY - canvas.offsetTop - currMeme.pos.h;
+        }
+
+        console.log('left',e.screenX, 'top',e.screenY)
+        
+        console.log('left',canvas.offsetLeft, 'top',canvas.offsetTop)
         redrawCanvas()
     }
 }
@@ -340,7 +349,6 @@ function onTextHover(ev){
             ev.offsetY > currMeme.pos.t &&
             ev.offsetY < currMeme.pos.t + currMeme.pos.h
         ) {
-        //   document.querySelector('.canvas').style.cursor = 'pointer';
           console.log('on text')
     }
 }
@@ -576,8 +584,6 @@ function uploadImg(elForm, ev) {
    
     // A function to be called if request succeeds
     function onSuccess(uploadedImgUrl) {
-        console.log('uploadedImgUrl', uploadedImgUrl);
-
         uploadedImgUrl = encodeURIComponent(uploadedImgUrl)
         document.querySelector('.fb-share').innerHTML = `
         <a class="w-inline-block social-share-btn fb" href="https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
@@ -603,4 +609,3 @@ function doUploadImg(elForm, onSuccess) {
         console.error(error)
     })
 }
-
