@@ -8,6 +8,7 @@ var gCtx;
 var gCurrLine = 0;
 var dragOK = false;
 
+var gDrag = false;
 var gCurrImgId;
 var gMeme = {}
 var gSearchWords = ['happy', 'movies', 'dance', 'hertzel', 'angry',
@@ -58,7 +59,6 @@ function galeryImgsToDispaly(isFilter) {
 function clearFilter() {
     renderImgs(false)
 }
-var gDrag = false;
 
 function imgClicked(imgId, elCanvas) {
     gElCanvas = elCanvas;
@@ -92,23 +92,32 @@ function imgClicked(imgId, elCanvas) {
       
 }
 
+    window.addEventListener("resize", resizeThrottler, false);
+  
+    var resizeTimeout;
+    function resizeThrottler() {
+      // ignore resize events as long as an actualResizeHandler execution is in the queue
+      if ( !resizeTimeout ) {
+        resizeTimeout = setTimeout(function() {
+          resizeTimeout = null;
+          actualResizeHandler();
+       
+         // The actualResizeHandler will execute at a rate of 15fps
+         }, 66);
+      }
+    }
+  
+    function actualResizeHandler() {
+      // handle the resize event
+    //    context = canvas.getContext('2d');
 
-function detectHit(x1,y1,x2,y2,w,h) {
-    //Very simple detection here
-    // console.log('x1',x1,'y1',y1,'x2',x2,'y2',y2,'w',w,'h',h)
-    // if(x2-x1>w) return false;
-    // if(y2-y1>h) return false;
-    // return true;
+gCtx.clearRect(0, 0, canvas.width, canvas.height);
+    //   drawCanvas()
+    redrawCanvas();
+      console.log('window size', window.innerWidth)
+    }
+  
 
-    // if (x2 > x1 &&
-    //     x2 < x1 + w &&
-    //     y2 > y1 &&
-    //     y2 < y1 + h){
-    //         return true
-    //     } else {
-    //         return false;
-    //     }
-  }
 
 
   
@@ -117,13 +126,8 @@ function detectHit(x1,y1,x2,y2,w,h) {
 function myMove(e) {
     if (dragOK) {
         var currMeme = gMeme.txts[gCurrLine];
-        if (window.innerWidth > 780) {
             currMeme.align = e.screenX - canvas.offsetLeft - currMeme.pos.w / 2;
-            currMeme.alignY = e.screenY - canvas.offsetTop - currMeme.pos.h;
-        } else if (window.innerWidth < 780){
-            currMeme.align = e.screenX - canvas.offsetLeft - currMeme.pos.w / 2;
-            currMeme.alignY = e.screenY - canvas.offsetTop - currMeme.pos.h;
-        }
+            currMeme.alignY = e.screenY - canvas.offsetTop - currMeme.pos.h - 70;
 
         console.log('left',e.screenX, 'top',e.screenY)
         
@@ -137,8 +141,7 @@ function myDown(ev) {
     var txts = gMeme.txts;
     for (var i = 0; i < txts.length; i++) {
         var currMeme = txts[i];
-        // var textLength = (txt.line.length * txt.size) / 2;
-        //check if the mouse is on the word
+
         if (ev.offsetX > currMeme.pos.l &&
             ev.offsetX < currMeme.pos.l + currMeme.pos.w &&
             ev.offsetY > currMeme.pos.t &&
@@ -199,7 +202,12 @@ function drawImage() {
     var img = new Image();
     img.src = gImgs[gCurrImgId - 1].url;
     img.onload = function () {
-        canvas.width = 500;
+        if (window.innerWidth < 780){
+            canvas.width = window.innerWidth * 0.9;
+        } else if (window.innerWidth > 780){
+            canvas.width = window.innerWidth * 0.5;            
+        }
+
         canvas.height = canvas.width / (img.width / img.height);
         gCtx.drawImage(img, 0, 0, canvas.width, canvas.height);
     }
