@@ -5,7 +5,6 @@ var MAP_SEARCH_KEY = 'map_search_keys'
 
 var gElCanvas;
 var gCtx;
-var gColor = 'white';
 var gCurrLine = 0;
 var dragOK = false;
 
@@ -61,30 +60,25 @@ function clearFilter() {
 }
 
 function imgClicked(imgId, elCanvas) {
-
     gElCanvas = elCanvas;
     gCurrImgId = imgId;
-
     createMeme();
     drawCanvas();
     drawImage();
-
     canvas.onmousedown = myDown;
     canvas.onmouseup = myUp;
-
-    
-    // setInterval(redrawCanvas, 10)
 }
 
 
 function myMove(e) {
     if (dragOK) {
         var currMeme = gMeme.txts[gCurrLine];
+        // console.log('align, clientx, pos.w, offsetleft', currMeme.align, e.clientX, currMeme.pos.w, canvas.offsetLeft)
         currMeme.align = e.clientX - canvas.offsetLeft - currMeme.pos.w / 2;
-        currMeme.alignY = e.clientY - canvas.offsetTop + currMeme.pos.h / 2;
+        currMeme.alignY = e.clientY - canvas.offsetTop - currMeme.pos.h;
         // console.log('left, top > ', txts[gCurrLine].left, txts[gCurrLine].left)
         // console.log('e.pageX, canvas.offsetLeft, e.pageY, canvas.offsetTop > ', e.pageX, canvas.offsetLeft, e.pageY, canvas.offsetTop)
-        
+        // checkBorder()
         redrawCanvas()
     }
 }
@@ -154,7 +148,6 @@ function drawCanvas() {
 
 function drawImage() {
     var img = new Image();
-
     img.src = gImgs[gCurrImgId - 1].url;
     img.onload = function () {
         canvas.width = 500;
@@ -166,17 +159,13 @@ function drawImage() {
 function memeToDispaly() { 
     var left;
     var top;
+
     for (var i = 0; i < gMeme.txts.length; i++) {
         var currMeme = gMeme.txts[i];
-
         gCtx.fillStyle = currMeme.color;
-
         gCtx.font = currMeme.size + 'px ' + currMeme.font;
-
         gCtx.textAlign = currMeme.align;
         gCtx.textAlignY = currMeme.alignY;
-
-        // console.log('currmeme align is >',currMeme.align)
 
         switch (currMeme.align) {
             case 'left':
@@ -214,16 +203,10 @@ function memeToDispaly() {
                 top = currMeme.alignY;
         }
 
-        // currMeme.pos.l = left;
-        // currMeme.pos.t = top;
-
-        // console.log('pos.l , pos.t >', currMeme.pos.l, currMeme.pos.t)
-
-        // console.log('left top', left, top)
-
-        // drawOnCanvas(left, top) 
-
-        // gCtx.fillStyle = gColor;
+        if (currMeme.align < 0) left = 0;
+        if (currMeme.alignY < 40) top = 40;  
+        if (currMeme.align > gElCanvas.width - currMeme.pos.w) left = gElCanvas.width - currMeme.pos.w;
+        if (currMeme.alignY > gElCanvas.height) top = gElCanvas.height;
         if (currMeme.upperCase) {
             var upperCaseText = currMeme.memeText.toUpperCase();
             currMeme.memeText = upperCaseText;
@@ -240,20 +223,17 @@ function memeToDispaly() {
         gCtx.strokeText(currMeme.memeText, left, top);
         gCtx.fillText(currMeme.memeText, left, top)
 
-        
         var txtWidth = gCtx.measureText(currMeme.memeText).width;
         var txtHeight = currMeme.size;
         var align = currMeme.align;
-        drawBgText(i, align, left, top - txtHeight, txtWidth, txtHeight);
-        
-        
+        drawBgText(i, align, left - 5, top - txtHeight + 5, txtWidth + 10, txtHeight + 5);
     }
 }
 
 
 function drawBgText(line, align, l, t, w, h){
     if (line === gCurrLine){
-        gCtx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+        gCtx.fillStyle = 'rgba(0, 0, 0, 0.2)';
     } else {
         gCtx.fillStyle = 'rgba(0, 0, 0, 0)';        
     }
@@ -298,8 +278,6 @@ function handleClick(ev){
             ev.offsetY > currMeme.pos.t &&
             ev.offsetY < currMeme.pos.t + currMeme.pos.h
         ) {
-            // console.log('hamdleClick says you clicked the line > ', currMeme.memeText)
-            // console.log('i clicked > ', isLineClicked)
             gCurrLine = i;
             currMeme.isSelected = true;
             redrawCanvas();
@@ -313,6 +291,29 @@ function handleClick(ev){
     }
 }
 
+// function onTextHover(ev){
+//     for (var i = 0; i < gMeme.txts.length; i++){
+//         var currMeme = gMeme.txts[i];
+//         if (ev.offsetX > currMeme.pos.l &&
+//             ev.offsetX < currMeme.pos.l + currMeme.pos.w &&
+//             ev.offsetY > currMeme.pos.t &&
+//             ev.offsetY < currMeme.pos.t + currMeme.pos.h
+//         ) {
+//           document.querySelector('.canvas').style.cursor = 'pointer';
+//     }
+// }
+// }
+
+
+function checkBorder(){
+    // for (var i = 0; i < gMeme.txts; i++){
+        var currMeme = gMeme.txts[gCurrLine];
+        if (currMeme.pos.l < 0) currMeme.pos.l = 0;
+        if (currMeme.pos.t < 0) currMeme.pos.t = 0;  
+        console.log('chekc border says ', currMeme.pos.l, currMeme.pos.t)      
+    // }
+    redrawCanvas();
+}
 
 function getCurrColor(){
     var line = checkForSelectedLine()
@@ -352,14 +353,12 @@ function changeTextColor(ev) {
     var line = checkForSelectedLine()
     var color = ev.target.value;
     gMeme.txts[line].color = color;
-    gColor = color;
     redrawCanvas()
 }
 
 function changeFont(fontFamily) {
     var line = checkForSelectedLine()
     gMeme.txts[line].font = fontFamily;
-    // gSelectedFont = fontFamily;
     redrawCanvas()
 }
 
@@ -437,11 +436,8 @@ function clearLine(input) {
 
 
 function handleImageFromInput(ev, onImageReady) {
-    // document.querySelector('.share-container').innerHTML = ''
-    // debugger;
-
+    onImgClick(1);
     var reader = new FileReader();
-
     reader.onload = function (event) {
         gImgs.push({id: imgNextId, url: event.target.result, keywords: []})
         gCurrImgId = imgNextId;
@@ -529,16 +525,6 @@ function saveMapKeys() {
 
 // Facebook Code For Share! //
 
-// function renderFbShareBtn(){
-//     var img = gElCanvas.toDataURL();
-//     var strHtml = `    
-//   <div class="fb-share-button" data-href="${img}" data-layout="button_count" data-size="small" data-mobile-iframe="true">
-//   <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=${img}&amp;src=sdkpreparse" 
-//   class="fb-xfbml-parse-ignore">SHARE</a></div>`
-//     document.querySelector('.fb-share').innerHTML = strHtml;
-// }
-
-
 function uploadImg(elForm, ev) {
     ev.preventDefault();
     gCurrLine = null;
@@ -563,7 +549,7 @@ function uploadImg(elForm, ev) {
 function doUploadImg(elForm, onSuccess) {
     var formData = new FormData(elForm);
 
-    fetch('http://ca-upload.com/here/upload.php', {
+    fetch('https://ca-upload.com/here/upload.php', {
         method: 'POST',
         body: formData
     })
@@ -575,17 +561,4 @@ function doUploadImg(elForm, onSuccess) {
         console.error(error)
     })
 }
-
-
-// (function(d, s, id) {
-//     var js, fjs = d.getElementsByTagName(s)[0];
-//     if (d.getElementById(id)) return;
-//     js = d.createElement(s); js.id = id;
-//     js.src = 'https://connect.facebook.net/he_IL/sdk.js#xfbml=1&version=v3.0';
-//     fjs.parentNode.insertBefore(js, fjs);
-//   }(document, 'script', 'facebook-jssdk'));
-
-
-
-
 

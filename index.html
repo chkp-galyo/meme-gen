@@ -49,6 +49,9 @@
 
     <div class="main-page-container">
         <div class="search-box filter flex justify-center">
+                <input class="btn-width btn-height" type="file" name="image" accept=".jpg, .jpeg, .png"
+                 onchange="onFileInputChange(event)" />
+
             <input class="searchBox" list="filter" oninput="onSearch()">
             <datalist id="filter">
 
@@ -223,10 +226,9 @@
                 <li>
                     <button class="btn-width btn-height">More options</button>
 
-                    <input class="btn-width btn-height" type="file" name="image" onchange="onFileInputChange(event)" />
                     <!-- <div class="fb-share"><button onclick="renderFbShareBtn()">publish!</button></div> -->
                     <form action="" method="POST" enctype="multipart/form-data" onsubmit="uploadImg(this, event)">
-                        <input name="img" id="imgData" type="" />
+                        <input name="img" id="imgData" type="hidden" />
                         <button type="submit">Publish</button>
                     </form>
                     <div class="fb-share"></div>
