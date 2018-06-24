@@ -70,33 +70,25 @@ function imgClicked(imgId, elCanvas) {
     canvas.onmouseup = myUp;
 
     canvas.addEventListener('touchmove', function() {
+        //Assume only one touch/only process one touch even if there's more
         var touch = event.targetTouches[0];
-        console.log(touch.clientX)
+        console.dir(event)
         for (var i = 0; i < gMeme.txts.length; i++){
             var currMeme = gMeme.txts[i];
-            // if(detectHit(currMeme.align, currMeme.alignY, touch.pageX, touch.pageY, currMeme.pos.w, currMeme.pos.h)) {
-                if (gDrag && gCurrLine === i){
-
-                    console.log(canvas.width, window.innerWidth);
-                    console.log(touch.screenX)
-
-                currMeme.align = touch.screenX;
-                currMeme.alignY = touch.screenY;
+            // Is touch close enough to our object?
+            // if(detectHit(currMeme.align, currMeme.alignY, touch.pageX, touch.pageY, currMeme.pos.w, currMeme.pos.h) && gCurrLine === i) {
+                if (gCurrLine === i){
+                // Assign new coordinates to our object
+                // console.log(canvas.width, window.innerWidth)
+                currMeme.align = touch.pageX;
+                currMeme.alignY = touch.pageY - 70;
                 
+                // Redraw the canvas
                redrawCanvas();
             }
             event.preventDefault();
         }
         }, false);
-
-        canvas.addEventListener('mousemove', function() {
-            console.dir(event.offsetX)
-            for (var i = 0; i < gMeme.txts.length; i++){
-                if (mouseOverText){
-                    console.log('yeah');
-                }
-            }
-            });
       
 }
 
@@ -104,22 +96,22 @@ function imgClicked(imgId, elCanvas) {
 function detectHit(x1,y1,x2,y2,w,h) {
     //Very simple detection here
     // console.log('x1',x1,'y1',y1,'x2',x2,'y2',y2,'w',w,'h',h)
-    if(x2-x1>w) return false;
-    if(y2-y1>h) return false;
-    return true;
+    // if(x2-x1>w) return false;
+    // if(y2-y1>h) return false;
+    // return true;
+
+    // if (x2 > x1 &&
+    //     x2 < x1 + w &&
+    //     y2 > y1 &&
+    //     y2 < y1 + h){
+    //         return true
+    //     } else {
+    //         return false;
+    //     }
   }
 
 
-  function mouseOverText(line){
-        var currMeme = txts[line];
-        if (ev.offsetX > currMeme.pos.l &&
-            ev.offsetX < currMeme.pos.l + currMeme.pos.w &&
-            ev.offsetY > currMeme.pos.t &&
-            ev.offsetY < currMeme.pos.t + currMeme.pos.h) {
-                return true;
-        }
-        return false;
-  }
+  
 
 
 function myMove(e) {
@@ -136,10 +128,13 @@ function myDown(ev) {
     var txts = gMeme.txts;
     for (var i = 0; i < txts.length; i++) {
         var currMeme = txts[i];
+        // var textLength = (txt.line.length * txt.size) / 2;
+        //check if the mouse is on the word
         if (ev.offsetX > currMeme.pos.l &&
             ev.offsetX < currMeme.pos.l + currMeme.pos.w &&
             ev.offsetY > currMeme.pos.t &&
             ev.offsetY < currMeme.pos.t + currMeme.pos.h) {
+                // console.log('myDown says > yes you clicked the line', currMeme.memeText)
                 isLineClicked = true;
             gCurrLine = i;
             dragOK = true;
@@ -316,6 +311,7 @@ function drawBgText(line, align, l, t, w, h){
 }
 
 function handleClick(ev){
+    if (window.innerWidth < 400) return;
     for (var i = 0; i < gMeme.txts.length; i++){
         var currMeme = gMeme.txts[i];
         if (ev.offsetX > currMeme.pos.l &&
@@ -608,4 +604,3 @@ function doUploadImg(elForm, onSuccess) {
         console.error(error)
     })
 }
-

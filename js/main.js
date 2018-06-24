@@ -93,20 +93,8 @@ function onImgClick(imgId) {
     window.scrollTo(0, 0);
 }
 
-function addPointer(e){
-    console.log('on canvas')
-    for (var i = 0; i < gMeme.txts.length; i++){
-        var currMeme = gMeme.txts[i];
-        if (e.offsetX > currMeme.pos.l &&
-            e.offsetX < currMeme.pos.l + currMeme.pos.w &&
-            e.offsetY > currMeme.pos.t &&
-            e.offsetY < currMeme.pos.t + currMeme.pos.h) {
-                // addPointer();
-    console.log('on text')
-                
-                return true;
-            }
-    }
+function addPointer(){
+    document.querySelector('.canvas').classList.add('pointer-cursor');
 }
 
 function addMoveCursor(){
@@ -115,7 +103,7 @@ function addMoveCursor(){
 }
 
 function removeCursor(){
-    document.querySelector('.canvas').classList.remove('move-cursor');
+    document.querySelector('.canvas').classList.remove('pointer-cursor');
 }
 
 
