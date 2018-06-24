@@ -32,7 +32,7 @@ body {
     margin: 0;
     font-size: 16px;
     /* background: rgba(0, 0, 0, 0.664); */
-   background-color: #ec721c94;
+   background-color: whitesmoke;
 }
 
 html {
@@ -501,6 +501,7 @@ li.hex:hover {
 
 .meme-editor-container {
     width: 300px;
+    margin-left: 20px;
 }
 .meme-editor-container li{
     margin-bottom: 10px;   
@@ -623,6 +624,10 @@ footer {
     #memeMapSearch {
         display: none;
     }
+
+    .meme-editor-container {
+        margin-left: 0;
+    }
 }
 
 @media only screen and (max-width: 520px) {
@@ -660,11 +665,17 @@ footer {
     .text-contact p {
         display: none;
     }
+    .meme-editor-container {
+        margin-left: 0;
+    }
 }
 
 @media only screen and (max-width: 420px) {
     .canvas-and-editor-container {
         width: 100vw;
+    }
+    .meme-editor-container {
+        margin-left: 0;
     }
 }
 
