@@ -6,13 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>MEMEGEN</title>
+
+    <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/hexagons.min.css">
     <link rel="stylesheet" href="css/hex-grid-galery.css">
+
     <link rel="stylesheet" href="css/main.css">
 </head>
 
 <body onload="init()">
     <header>
-        <nav class="flex row">
+        <nav class="main-menu flex row">
+            <div class="hamburger-menu" onclick="openMenue(this)">
+                <div class="bar1"></div>
+                <div class="bar2"></div>
+                <div class="bar3"></div>
+            </div>
             <ul class="flex clean-list space-between menu">
                 <li class="menu-item">
                     <a href="#" class="acitve">portfolio</a>
@@ -24,7 +35,7 @@
                 <li class="">
                     <div class="menu-item nav-arrow">🠋</div>
                 </li>
-              
+
                 <li class="menu-item">
                     <a href="#">blog</a>
                 </li>
@@ -37,27 +48,86 @@
     </header>
 
     <div class="main-page-container">
-        <div class="search-box filter flex justify-center"></div>
-        <button class="" onclick="clearFilter()">Show All</button>
-        <section id="memeMapSearch" class="container"></section>
-        <section class="container galery"></section>
+        <div class="search-box filter flex justify-center">
+            <input class="searchBox" list="filter" oninput="onSearch()">
+            <datalist id="filter">
 
-        <section class="about_us flex column">
-            <div class="my-profile">
-                <div class="container flex">
-                    <img src="img/1.jpg" alt="Gal and Itzik" class="img">
-                    <div class="text-profile">
+            </datalist>
+            <button class="btn-filter" onclick="clearFilter()">Show All</button>
 
-                        <h2>Smith Anderson</h2>
+        </div>
+        <section id="memeMapSearch"></section>
+        <section class="galery"></section>
+
+
+        <section id="about-us" class="about-us">
+            <div class="about-container flex column">
+                <div id="profile1" class="profile flex">
+
+                    <div id="hexGrid">
+                        <div class="hex">
+                            <div class="hexIn">
+                                <div class="profile-pic hexLink">
+                                    <img src="img/team/us.JPG" alt="">
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="about-txt">
+
+                        <h2>Gal & Itzik</h2>
                         <h3>Illustrator and Character Designer</h3>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris porttitor, nibh at sagittis tristique,
                             enim magna pretium augue, eget consectetur sem dui non urna. Integer gravida, diam congue molestie
                             fringilla, elit odio rhoncus turpis, ac dictum libero elit vel metus. Morbi egestas sit amet
                             velit eget venenatis. Mauris porttitor, nibh at sagittis tristique, enim magna pretium augue,
                             eget consectetur sem dui non urna</p>
-                        <div class="social-icons"></div>
+                        <div class="social-icons flex column">
+                            <ul class="clean-list flex">
+                                <li>
+                                    <a href="#">
+                                        <span class="hb hb-xs spin">
+                                            <i class="fa fa-facebook"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span class="hb hb-xs spin">
+                                            <i class="fa fa-twitter"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span class="hb hb-xs spin">
+                                            <i class="fa fa-google-plus"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span class="hb hb-xs spin">
+                                            <i class="fa fa-github-square"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span class="hb hb-xs spin">
+                                            <i class="fa fa-linkedin-square"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
+
             </div>
         </section>
         <section id="contact-us" class="contact-us">
@@ -85,7 +155,7 @@
     </div>
 
 
-    <main class="meme-main_container flex flex-wrap column space-between hidden">
+    <main class="meme-main-container flex flex-wrap column space-between hidden">
         <button class="btn-back btn-width btn-height hidden" onclick="backToGallery()">back to gallery</button>
         <div class="canvas-and-editor-container flex flex-wrap space-around">
             <div class="canvas-container">
@@ -122,7 +192,7 @@
                 <li>
                     <button class="btn-width btn-height btn-add-line" onclick="addLine(this)">Add text line</button>
                 </li>
-                <li class="meme-editor-line2 column wrap space-between hidden">
+                <!-- <li class="meme-editor-line2 column wrap space-between hidden">
                     <div class="flex space-between">
                         <button class="btn btn-clear-text" onclick="clearLine('.second-line', 1)">🗑</button>
                         <input type="text" class="second-line" oninput="drawText(event)" placeholder="text 2st line here">
@@ -138,7 +208,7 @@
                             <button class="btn btn-align-right" onclick="alignTextY('bottom', 1)">B</button>
                         </div>
                     </div>
-                </li>
+                </li> -->
 
                 <li>
                     <select class="font-family btn-width btn-height" onchange="onFontChange(value)">
@@ -156,7 +226,7 @@
                     <input class="btn-width btn-height" type="file" name="image" onchange="onFileInputChange(event)" />
                     <!-- <div class="fb-share"><button onclick="renderFbShareBtn()">publish!</button></div> -->
                     <form action="" method="POST" enctype="multipart/form-data" onsubmit="uploadImg(this, event)">
-                        <input name="img" id="imgData" type=""/>
+                        <input name="img" id="imgData" type="" />
                         <button type="submit">Publish</button>
                     </form>
                     <div class="fb-share"></div>
@@ -175,7 +245,8 @@
         © Copyright 2013 by PSDchat
     </footer>
 
-
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="assets/js/hexagons.min.js"></script>
     <script src="js/meme-service.js"></script>
     <script src="js/utils-service.js"></script>
     <script src="js/main.js"></script>
