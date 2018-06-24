@@ -117,8 +117,17 @@ function detectHit(x1,y1,x2,y2,w,h) {
 function myMove(e) {
     if (dragOK) {
         var currMeme = gMeme.txts[gCurrLine];
-        currMeme.align = e.clientX - canvas.offsetLeft - currMeme.pos.w / 2;
-        currMeme.alignY = e.clientY - canvas.offsetTop - currMeme.pos.h;
+        if (window.innerWidth > 780) {
+            currMeme.align = e.screenX - canvas.offsetLeft - currMeme.pos.w / 2;
+            currMeme.alignY = e.screenY - canvas.offsetTop - currMeme.pos.h;
+        } else if (window.innerWidth < 780){
+            currMeme.align = e.screenX - canvas.offsetLeft - currMeme.pos.w / 2;
+            currMeme.alignY = e.screenY - canvas.offsetTop - currMeme.pos.h;
+        }
+
+        console.log('left',e.screenX, 'top',e.screenY)
+        
+        console.log('left',canvas.offsetLeft, 'top',canvas.offsetTop)
         redrawCanvas()
     }
 }
@@ -340,7 +349,6 @@ function onTextHover(ev){
             ev.offsetY > currMeme.pos.t &&
             ev.offsetY < currMeme.pos.t + currMeme.pos.h
         ) {
-        //   document.querySelector('.canvas').style.cursor = 'pointer';
           console.log('on text')
     }
 }
